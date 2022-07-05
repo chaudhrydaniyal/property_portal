@@ -5,16 +5,8 @@ const createError = require("../utils/error");
 
 // const download = require("downloadjs")
 
-
-
-
-
-
-
-
 const register = async (req, res, next) => {
-
-    console.log(req.body)
+  console.log(req.body);
   //hashing our password
   try {
     const salt = bcrypt.genSaltSync(10);
@@ -35,16 +27,10 @@ const register = async (req, res, next) => {
     await newUser.save();
     res.status(200).send("User has been created");
   } catch (error) {
-    console.log(error)
+    console.log(error);
     next(error);
   }
 };
-
-
-
-
-
-
 
 const login = async (req, res, next) => {
   try {
