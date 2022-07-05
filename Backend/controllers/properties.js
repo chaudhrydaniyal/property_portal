@@ -5,16 +5,16 @@ const {verifyAdmin} = require('../utils/verifytoken')
 const postproperty = async (req, res, next) => {
     try {
         const post = new Properties({
-            image: req.body.image,
-            propertytitle: req.body.propertytitle,
+            img: req.body.image,
+            title: req.body.propertytitle,
             price: req.body.price,
-            propertytype: req.body.propertytype,
+            propertyType: req.body.propertytype,
             city: req.body.city,
             purpose: req.body.purpose,
             location: req.body.location,
-            bath: req.body.bath,
-            area: req.body.area,
-            rooms: req.body.rooms,
+            washrooms: req.body.bath,
+            landArea: req.body.area,
+            bedrooms: req.body.rooms,
             kitchen: req.body.kitchen,
             storeroom: req.body.storeroom,
             description: req.body.description,

@@ -2,12 +2,12 @@ const mongoose = require('mongoose')
 const AutoIncrement = require("mongoose-sequence")(mongoose)
 const propertySchema = new mongoose.Schema({
   propertyno: Number,
-  image: {
+  img: {
     type: String,
 
   },
 
-  propertytitle: {
+  title: {
     type: String,
     required: true
   },
@@ -15,7 +15,7 @@ const propertySchema = new mongoose.Schema({
     type: Number,
     required: true
   },
-  propertytype: {
+  propertyType: {
     type: String,
     enum: ['flat', 'home', 'plot'],
     required: true
@@ -33,15 +33,15 @@ const propertySchema = new mongoose.Schema({
     required: true
   },
 
-  bath: {
+  washrooms: {
     type: String,
     required: true
   },
-  area: {
+  landArea: {
     type: String,
     required: true
   },
-  rooms: {
+  bedrooms: {
     type: String,
     required: true
   },
