@@ -12,7 +12,7 @@ router.post('/addproperty',verifyUser,postproperty);
 
 
 // router.get('/',getProperty)
-router.get("/", paginatedResults(Properties), getProperty);
+router.get("/:id", paginatedResults(Properties), getProperty);
 
 
 //update property

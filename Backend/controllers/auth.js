@@ -57,11 +57,7 @@ const login = async (req, res, next) => {
     );
     const { password, isAdmin, ...otherdetails } = user._doc;
     res
-      .cookie("access_token", token, {
-        //we do http only because it does not allow any client secret to reach that cookie
-
-        httpOnly: true,
-      })
+      .cookie("access_token", token)
       .status(200)
       .json({ details: { ...otherdetails }, isAdmin });
   } catch (error) {
