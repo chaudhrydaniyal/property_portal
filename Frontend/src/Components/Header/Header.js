@@ -2,8 +2,16 @@ import React from 'react'
 import { useState } from 'react';
 import { Navbar, Container, Nav, Modal,Button ,Form} from 'react-bootstrap';
 import { Link } from 'react-router-dom';
+import axios from "axios";
+
 import './header.css'
 const Header = ({show,handleShow,handleClose}) => {
+
+
+
+    const [username, setUsername] = useState("")
+    const [password, setPassword] = useState("")
+
 
 
     return (
@@ -48,13 +56,42 @@ const Header = ({show,handleShow,handleClose}) => {
                 </Modal.Header>
                 <Modal.Body>
                     <Form.Label>Username</Form.Label>
-                    <Form.Control  placeholder='username'/>
+                    <Form.Control  placeholder='username' onChange={(e)=>setUsername(e.target.value)}/>
                     <Form.Label className='mt-3'>Password</Form.Label>
-                    <Form.Control type='password' placeholder='password'/>
+                    <Form.Control type='password' placeholder='password' onChange={(e)=>setPassword(e.target.value)}/>
                     
                 </Modal.Body>
                 <Modal.Footer>
-                    <Button variant='success mx-auto'>Login</Button>
+                    <Button variant='success mx-auto'
+                    
+                    onClick={async ()=>{console.log("state",username,password)
+
+
+                    try {
+                        // make axios post request
+                        const response = await axios({
+                          method: "post",
+                          url: "http://localhost:8000/auth/login",
+                          data: {
+                            username: username,
+                            password: password,
+                          },
+                          headers: { "Content-Type": "application/json" },
+                        });
+                  
+                        console.log("response",response);
+                  
+                 
+                  
+                      } catch (error) {
+                        console.log(error);
+                      }
+                
+                
+                
+                }}
+                    
+                    >Login</Button>
                 </Modal.Footer>
             </Modal>
         </div>

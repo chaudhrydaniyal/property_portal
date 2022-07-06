@@ -1,12 +1,20 @@
 const express = require('express');
 const router = express.Router();
-const {postproperty,getProperty,editProperty,deleteProperty,admin} = require('../controllers/properties')
+const Properties = require("../Models/properties");
+
+const {postproperty,getProperty,editProperty,deleteProperty,admin, paginatedResults} = require('../controllers/properties')
 const {verifyUser,verifyAdmin} = require("../utils/verifytoken")
 
 //create property
 router.post('/addproperty',verifyUser,postproperty);
 //getting property with owner information
-router.get('/',getProperty)
+
+
+
+// router.get('/',getProperty)
+router.get("/", paginatedResults(Properties), getProperty);
+
+
 //update property
 router.put('/:id',verifyUser,editProperty)
 //delete property
