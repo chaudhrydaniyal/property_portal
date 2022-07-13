@@ -33,6 +33,7 @@ const register = async (req, res, next) => {
 };
 
 const login = async (req, res, next) => {
+
   try {
     const user = await Users.findOne({
       username: req.body.username,

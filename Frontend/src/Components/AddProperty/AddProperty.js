@@ -1,6 +1,7 @@
 import React from "react";
 import { Card, Form, Button, Container } from "react-bootstrap";
 import { useState } from "react";
+import { RMIUploader } from "react-multiple-image-uploader";
 
 import axios from "axios";
 import "./add.css";
@@ -20,6 +21,83 @@ const AddProperty = () => {
   const [storeRooms, setStoreRooms] = useState("1");
   const [location, setLocation] = useState("");
   const [description, setDescription] = useState("");
+
+  const [visible, setVisible] = useState(false);
+  const handleSetVisible = () => {
+    setVisible(true);
+  };
+  const hideModal = () => {
+    setVisible(false);
+  };
+  const onUpload = (data) => {
+    console.log("Upload files", data);
+  };
+  const onSelect = (data) => {
+    console.log("Select files", data);
+  };
+  const onRemove = (id) => {
+    console.log("Remove image id", id);
+  };
+
+  //upload images
+
+  // converting base64 to blob
+  function b64toBlob(b64Data, contentType, sliceSize) {
+    contentType = contentType || "";
+    sliceSize = sliceSize || 512;
+    var byteCharacters = atob(b64Data);
+    var byteArrays = [];
+    for (var offset = 0; offset < byteCharacters.length; offset += sliceSize) {
+      var slice = byteCharacters.slice(offset, offset + sliceSize);
+      var byteNumbers = new Array(slice.length);
+      for (var i = 0; i < slice.length; i++) {
+        byteNumbers[i] = slice.charCodeAt(i);
+      }
+      var byteArray = new Uint8Array(byteNumbers);
+      byteArrays.push(byteArray);
+    }
+    var blob = new Blob(byteArrays, { type: contentType });
+    return blob;
+  }
+  function imagetoblob(ImgId) {
+    var ImageURL = document.getElementById(ImgId).getAttribute("src");
+    // Split the base64 string in data and contentType
+    var block = ImageURL.split(";");
+    // Get the content type of the image
+    var contentType = block[0].split(":")[1]; // In this case "image/gif"
+    // get the real base64 content of the file
+    var realData = block[1].split(",")[1]; // In this case "R0lGODlhPQBEAPeoAJosM...."
+    // Convert it to a blob to upload
+    return b64toBlob(realData, contentType);
+  }
+
+  const [selectedFile, setSelectedFile] = React.useState(null);
+
+  const handleSubmit = async (event) => {
+    // event.preventDefault()
+    const formData = new FormData();
+    console.log("selectedFile", event[0].file);
+    for (let i = 0; i < event.length; i++) {
+      formData.append("uploadedImages", event[i].file);
+    }
+
+    try {
+      const response = await axios({
+        method: "post",
+        url: "http://localhost:8000/properties/addproperty",
+        data: formData,
+        headers: { "Content-Type": "multipart/form-data" },
+      });
+
+      console.log("response", response);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const handleFileSelect = (event) => {
+    setSelectedFile(event.target.files[0]);
+  };
 
   return (
     <>
@@ -48,25 +126,27 @@ const AddProperty = () => {
                   );
 
                   axios
-                    .post("http://localhost:8000/properties/addproperty", {
-                      propertytitle: title,
-                      price: parseFloat(price),
-                      propertytype: propetyType,
-                      city: city,
-                      purpose: purpose,
-                      area: area,
-                      rooms: bedrooms,
-                      bath: washrooms,
-                      area: landArea,
-                      kitchen: kitchen,
-                      storeroom: storeRooms,
-                      location: location,
-                      description: description,
-                    },{withCredentials:true})
+                    .post(
+                      "http://localhost:8000/properties/addproperty",
+                      {
+                        propertytitle: title,
+                        price: parseFloat(price),
+                        propertytype: propetyType,
+                        city: city,
+                        purpose: purpose,
+                        area: area,
+                        rooms: bedrooms,
+                        bath: washrooms,
+                        area: landArea,
+                        kitchen: kitchen,
+                        storeroom: storeRooms,
+                        location: location,
+                        description: description,
+                      },
+                      { withCredentials: true }
+                    )
                     .then((res) => {
-                 
-                        console.log("property added");
-                    
+                      console.log("property added");
                     })
                     .catch((err) => {
                       console.log("property data submit error: ", err);
@@ -89,7 +169,6 @@ const AddProperty = () => {
                       className="dd"
                       onChange={(e) => setPrice(e.target.value)}
                       required
-
                     ></Form.Control>
                   </div>
                 </div>
@@ -101,9 +180,8 @@ const AddProperty = () => {
                     <Form.Select
                       onChange={(e) => setPropertyType(e.target.value)}
                       required
-
                     >
-                      <option value="" disabled selected >
+                      <option value="" disabled selected>
                         Select the Type
                       </option>
                       <option>flat</option>
@@ -113,10 +191,9 @@ const AddProperty = () => {
                   </div>
                   <div>
                     <Form.Label className="mt-3 select">City</Form.Label>
-                    <Form.Select onChange={(e) => setCity(e.target.value)}
-                    
-                    required
-
+                    <Form.Select
+                      onChange={(e) => setCity(e.target.value)}
+                      required
                     >
                       <option value="" disabled selected>
                         Select The City
@@ -380,10 +457,8 @@ const AddProperty = () => {
                     <Form.Label className="mt-3">Purpose</Form.Label>
                     <Form.Select
                       className="select"
-
                       onChange={(e) => setPurpose(e.target.value)}
                       required
-
                     >
                       <option value="" disabled selected>
                         purpose
@@ -399,7 +474,6 @@ const AddProperty = () => {
                       className="select"
                       onChange={(e) => setLandArea(e.target.value)}
                       required
-
                     ></Form.Control>
                   </div>
                 </div>
@@ -410,7 +484,6 @@ const AddProperty = () => {
                       className="select"
                       onChange={(e) => setBedrooms(e.target.value)}
                       required
-
                     >
                       <option>1</option>
                       <option>2</option>
@@ -426,7 +499,6 @@ const AddProperty = () => {
                       className="select"
                       onChange={(e) => setWashrooms(e.target.value)}
                       required
-
                     >
                       <option>1</option>
                       <option>2</option>
@@ -440,7 +512,6 @@ const AddProperty = () => {
                       className="select"
                       onChange={(e) => setKitchen(e.target.value)}
                       required
-
                     >
                       <option>1</option>
                       <option>2</option>
@@ -453,7 +524,6 @@ const AddProperty = () => {
                       className="select"
                       onChange={(e) => setStoreRooms(e.target.value)}
                       required
-
                     >
                       <option>1</option>
                       <option>2</option>
@@ -468,7 +538,6 @@ const AddProperty = () => {
                       placeholder="street address"
                       onChange={(e) => setLocation(e.target.value)}
                       required
-
                     ></Form.Control>
                     <Form.Label className="mt-3 dd">Description</Form.Label>
                     <Form.Control
@@ -477,7 +546,6 @@ const AddProperty = () => {
                       className="tex"
                       onChange={(e) => setDescription(e.target.value)}
                       required
-
                     ></Form.Control>
                   </div>
                 </div>
@@ -486,6 +554,14 @@ const AddProperty = () => {
                   Add Property
                 </Button>
               </Form>
+
+              <RMIUploader
+                isOpen={visible}
+                hideModal={hideModal}
+                onSelect={onSelect}
+                onUpload={handleSubmit}
+                onRemove={onRemove}
+              />
             </Card>
           </Card>
         </Container>

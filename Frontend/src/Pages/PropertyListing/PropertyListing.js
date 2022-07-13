@@ -10,11 +10,21 @@ import Stack from "@mui/material/Stack";
 import img1 from "../../Assets/1.webp";
 import img2 from "../../Assets/2.webp";
 import img3 from "../../Assets/3.webp";
-const PropertyListing = () => {
+import { Link, useLocation } from "react-router-dom";
+const PropertyListing = (props) => {
+  const location = useLocation();
+
+  console.log("location",location)
+  // Houses_Property
+
   const [data, setData] = useState([]);
   const [page, setPage] = useState(1);
-  const url = `http://localhost:8000/properties?page=${page}&limit=20`;
-
+  var url = "";
+  if (location.state) {
+    url = `http://localhost:8000/properties?propertyType=${location.state.propertyType}&page=${page}&limit=20`;
+  } else {
+    url = `http://localhost:8000/properties?propertyType=all_properties&page=${page}&limit=20`;
+  }
   const fetchDATA = async () => {
     try {
       const res = await axios.get(url);
@@ -55,29 +65,44 @@ const PropertyListing = () => {
                         className="img"
                       />
                       <Card.Body>
-                        <Card.Title>
-                          {" "}
-                          <div>
+               
+                          <Card.Title>
                             {" "}
-                            {item.price ? (
-                              <p
-                                style={{
-                                  fontSize: "15px",
-                                  fontWeight: "bold",
-                                  color: "green",
-                                }}
-                              >
-                                {item.price}
-                              </p>
-                            ) : (
-                              "-"
-                            )}
-                          </div>
-                        </Card.Title>
+                            <div>
+                              {" "}
+                              {item.price ? (
+                                <p
+                                  style={{
+                                    fontSize: "15px",
+                                    fontWeight: "bold",
+                                    color: "green",
+                                  }}
+                                >
+                                  {item.price}
+                                </p>
+                              ) : (
+                                "-"
+                              )}
+                            </div>
+                          </Card.Title>
                         <Card.Text>
+                        <Link
+                          to="propertyDetail"
+                          state={{
+
+                                item:item
+
+
+                          }}
+                          style={{textDecoration:"none",
+                          color:"#444"
+                          }}
+
+>
                           <p style={{ fontSize: "15px", fontWeight: "bold" }}>
                             {item.title}
                           </p>
+                          </Link>
 
                           <div
                             style={{ display: "flex", justifyContent: "start" }}
@@ -113,7 +138,7 @@ const PropertyListing = () => {
       >
         <Stack spacing={2}>
           <Pagination
-            count={10}
+            count={location.state ? 20 : 40}
             size="large"
             onChange={(e, p) => {
               console.log("eeeeeeeee", p);

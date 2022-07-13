@@ -27,3 +27,8 @@
 .cards{
     border: none;
 }
+
+.sliderlink{
+ text-decoration: none;
+ color: black;
+}

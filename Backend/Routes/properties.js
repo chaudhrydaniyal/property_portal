@@ -6,13 +6,13 @@ const {postproperty,getProperty,editProperty,deleteProperty,admin, paginatedResu
 const {verifyUser,verifyAdmin} = require("../utils/verifytoken")
 
 //create property
-router.post('/addproperty',verifyUser,postproperty);
+router.post('/addproperty',postproperty);
 //getting property with owner information
 
 
 
 // router.get('/',getProperty)
-router.get("/:id", paginatedResults(Properties), getProperty);
+router.get("/", paginatedResults(Properties), getProperty);
 
 
 //update property
