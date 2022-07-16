@@ -1,26 +1,34 @@
 import React from 'react'
-import { Container, Card, Row, Col ,Button} from 'react-bootstrap'
+import { Container, Card, Row, Col, Button } from 'react-bootstrap'
 import img from './item1.jpg'
 import './single.css'
-import {  useLocation, useParams } from 'react-router-dom';
+import Carousel from "react-elastic-carousel";
+import { consts } from "react-elastic-carousel";
+import { useLocation, useParams } from 'react-router-dom';
+import { images } from './index';
+import img1 from '../../Assets/2.webp'
+import styled from 'styled-components';
 
 const SingleProperty = () => {
-  const  item  = useLocation();
+
+  const item = useLocation();
 
 
-  console.log("testvalue",item)
+  console.log("testvalue", item)
 
   const propDetail = item.state.item
 
 
 
   return (
-    <div style={{  }}>
+    <div style={{}}>
 
       <div style={{ paddingTop: "100px", marginBottom: "0px" }}>
         <Container >
           <Row>
             <Col xs={8}>
+
+
               <Card className="maincard">
                 <Card.Title className='title'>
                   <div>
@@ -28,7 +36,31 @@ const SingleProperty = () => {
                     <p className="address">{propDetail.location}</p><hr style={{ marginTop: "2px", color: "#444" }}></hr>
                   </div>
                 </Card.Title>
-                <Card.Img src={propDetail.img} alt="property_img" className='cardimg ' style={{width:"800px",height:"500px",backgroundSize:"cover"}}/>
+                {/* {/ <Card.Img src={propDetail.img} alt="property_img" className='cardimg ' style={{ width: "800px", height: "500px", backgroundSize: "cover" }} /> /} */}
+
+                <Carousel
+                  itemsToShow={1}
+                  itemPadding={[0, 4]}
+                  itemPosition={consts.CENTER}
+                >
+                  {propDetail.propertyImages.map((pi)=> <div><Card.Img src={pi} className="img" style={{ width: "800px", height: "500px", }} /></div>)}
+
+                  <div><Card.Img src={images.img2} className="img" style={{ width: "800px", height: "500px", }} />
+
+                    <div className='icon'>
+                      <div><i className="fa-solid fa-camera" >&nbsp;&nbsp;8</i></div>
+                    </div>
+
+                    <div className='icon icon2'>
+                      <i className="fa-solid fa-location-dot">&nbsp;&nbsp;Lahore</i></div>
+                  </div>            
+
+
+                </Carousel>
+
+
+
+
                 <Card.Body>
                   <div className='cardflex'>
                     <div className='innerflex'>
@@ -56,8 +88,8 @@ const SingleProperty = () => {
                   </div>
                 </Card.Title>
                 <Card className='handle'>
-                <Card.Body className='handle'>
-                  {/* <Card.Text>
+                  <Card.Body className='handle'>
+                    {/* <Card.Text>
                     <div className=' mt-3 inner'>
                       <Card.Title ><div style={{fontSize:"25px",fontWeight:"bold"}}> PKR 6.55 Crore</div>
                        </Card.Title>
@@ -80,65 +112,65 @@ const SingleProperty = () => {
                        </div>
                     </div>
                   </Card.Text> */}
-                  <Card.Text>
-                    <div className=' mt-3 inner bg-success' style={{borderRadius:"4px"}} >
-                      <Card.Title >
-                        <div className='price' style={{fontSize:"25px",fontWeight:"bold"}}> {propDetail.price}</div>
-                       </Card.Title>
-                       
-                    </div>
-                    <Card className='card2main'>
-                <Card.Title><div className='overview'><p> Contact Details</p></div></Card.Title>
-                <Card.Body className='detailflex2a'>
+                    <Card.Text>
+                      <div className=' mt-3 inner bg-success' style={{ borderRadius: "4px" }} >
+                        <Card.Title >
+                          <div className='price' style={{ fontSize: "25px", fontWeight: "bold" }}> {propDetail.price}</div>
+                        </Card.Title>
 
-                  <div style={{width:"100%"}}>
-                    <div style={{ display: "flex" }}>
-                      <div style={{ width: "40%" }}><i class="fa-solid fa-user"></i>&nbsp;Owner</div>
-                      <div style={{ width: "60%" }}>Muhammad Noman</div>
-                    </div>
-                  </div>
-                 <br></br>
+                      </div>
+                      <Card className='card2main'>
+                        <Card.Title><div className='overview'><p> Contact Details</p></div></Card.Title>
+                        <Card.Body className='detailflex2a'>
+
+                          <div style={{ width: "100%" }}>
+                            <div style={{ display: "flex" }}>
+                              <div style={{ width: "40%" }}><i class="fa-solid fa-user"></i>&nbsp;Owner</div>
+                              <div style={{ width: "60%" }}>Muhammad Noman</div>
+                            </div>
+                          </div>
+                          <br></br>
 
 
-                </Card.Body>
-                <Card.Body className='detailflexa mt-2 ' >
-                  <div style={{ width: "100%" }}>
-                    <div style={{ display: "flex" }}>
-                      <div style={{ width: "40%" }}>(<i class="fa-solid fa-phone"></i>)&nbsp;Phone</div>
-                      <div style={{ width: "60%" }}> +923114550743</div>
-                    </div>
-                  </div>
-                  <br></br>
-                </Card.Body>
-                <Card.Body className='detailflex2a mt-2 '>
-                  <div style={{ width: "100%" }}>
-                    <div style={{ display: "flex" }}>
-                      <div style={{ width: "40%" }}><i class="fa-solid fa-envelope"></i>&nbsp;Email</div>
-                      <div style={{ width: "60%" }}>numanrajpoot62@gmail.com</div>
-                    </div>
-                  </div>
-                 <br></br>
-                </Card.Body>
-                <Card.Body className='detailflexa mt-2 mb-2' >
-                  <div style={{ width: "100%" }}>
-                    <div style={{ display: "flex" }}>
-                      <div style={{ width: "40%" }}><i class="fa-solid fa-location-dot"></i> &nbsp;Location</div>
-                      <div style={{ width: "60%" }}>{propDetail.city}</div>
-                    </div>
-                  </div> 
-                </Card.Body>
-                <Card.Body className='detailflex2a mt-2 mb-2' >
-                  <div style={{ width: "100%" }}>
-                    <div style={{ display: "flex" }}>
-                      <div style={{ width: "40%" }}><i class="fa-solid fa-clock"></i> &nbsp;Added</div>
-                      <div style={{ width: "60%" }}>2 Hours Ago</div>
-                    </div>
-                  </div> 
-                </Card.Body>
-                <hr></hr>
-              </Card>
-                  </Card.Text>                  
-                </Card.Body>
+                        </Card.Body>
+                        <Card.Body className='detailflexa mt-2 ' >
+                          <div style={{ width: "100%" }}>
+                            <div style={{ display: "flex" }}>
+                              <div style={{ width: "40%" }}>(<i class="fa-solid fa-phone"></i>)&nbsp;Phone</div>
+                              <div style={{ width: "60%" }}> +923114550743</div>
+                            </div>
+                          </div>
+                          <br></br>
+                        </Card.Body>
+                        <Card.Body className='detailflex2a mt-2 '>
+                          <div style={{ width: "100%" }}>
+                            <div style={{ display: "flex" }}>
+                              <div style={{ width: "40%" }}><i class="fa-solid fa-envelope"></i>&nbsp;Email</div>
+                              <div style={{ width: "60%" }}>numanrajpoot62@gmail.com</div>
+                            </div>
+                          </div>
+                          <br></br>
+                        </Card.Body>
+                        <Card.Body className='detailflexa mt-2 mb-2' >
+                          <div style={{ width: "100%" }}>
+                            <div style={{ display: "flex" }}>
+                              <div style={{ width: "40%" }}><i class="fa-solid fa-location-dot"></i> &nbsp;Location</div>
+                              <div style={{ width: "60%" }}>{propDetail.city}</div>
+                            </div>
+                          </div>
+                        </Card.Body>
+                        <Card.Body className='detailflex2a mt-2 mb-2' >
+                          <div style={{ width: "100%" }}>
+                            <div style={{ display: "flex" }}>
+                              <div style={{ width: "40%" }}><i class="fa-solid fa-clock"></i> &nbsp;Added</div>
+                              <div style={{ width: "60%" }}>2 Hours Ago</div>
+                            </div>
+                          </div>
+                        </Card.Body>
+                        <hr></hr>
+                      </Card>
+                    </Card.Text>
+                  </Card.Body>
                 </Card>
               </Card>
             </Col>

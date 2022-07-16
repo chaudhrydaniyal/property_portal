@@ -45,20 +45,44 @@ function checkFileType(file, cb) {
 
 //creating property
 const postproperty = async (req, res, next) => {
- 
-  upload(req, res, (err) => {
+
+  upload(req, res, async (err) => {
 
     console.log("called");
- console.log("req",req.files)
+    console.log("req", req.files)
+    const imgArray = req.files.map((i)=>i.path)
     if (err) {
       res.send({
         msg: err,
       });
     } else {
       if (req.file == undefined) {
+        try {
+          const post = new Properties({
+            title: req.body.propertytitle,
+            price: req.body.price,
+            propertyType: req.body.propertytype,
+            city: req.body.city,
+            purpose: req.body.purpose,
+            location: req.body.location,
+            washrooms: req.body.bath,
+            landArea: req.body.area,
+            bedrooms: req.body.rooms,
+            kitchen: req.body.kitchen,
+            storeroom: req.body.storeroom,
+            description: req.body.description,
+            owner: req.body.owner,
+            images:imgArray
+          });
+          console.log(req.body);
+          await post.save();
+        } catch (error) {
+          next(error);
+        }
         res.send({
           msg: "Error: No File Selected!",
-          file:`${req.files}`
+          file: `${req.files}`
+
         });
       } else {
         res.send({
@@ -69,29 +93,7 @@ const postproperty = async (req, res, next) => {
     }
   });
 
-  // try {
-  //   const post = new Properties({
-  //     img: req.body.image,
-  //     title: req.body.propertytitle,
-  //     price: req.body.price,
-  //     propertyType: req.body.propertytype,
-  //     city: req.body.city,
-  //     purpose: req.body.purpose,
-  //     location: req.body.location,
-  //     washrooms: req.body.bath,
-  //     landArea: req.body.area,
-  //     bedrooms: req.body.rooms,
-  //     kitchen: req.body.kitchen,
-  //     storeroom: req.body.storeroom,
-  //     description: req.body.description,
-  //     owner: req.body.owner,
-  //   });
-  //   console.log(req.body);
-  //   await post.save();
-  //   res.status(200).send("Property has been Listed");
-  // } catch (error) {
-  //   next(error);
-  // }
+
 };
 
 // const getProperty = async (req, res, next) => {

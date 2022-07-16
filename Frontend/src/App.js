@@ -22,9 +22,6 @@ function App() {
         <Route path='/register' element={<Register handleShow={handleShow}/>}></Route>
         <Route path='/propertylisting' element={<PropertyListing />}></Route>
         <Route path='/propertylisting/propertyDetail' element={<SingleProperty />}></Route>
-
-        
-
        </Routes>
        <HomePartners/>
        <Footer/>

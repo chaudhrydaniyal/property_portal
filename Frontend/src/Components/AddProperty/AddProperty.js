@@ -5,6 +5,7 @@ import { RMIUploader } from "react-multiple-image-uploader";
 
 import axios from "axios";
 import "./add.css";
+import originURL from "../../url";
 const AddProperty = () => {
   const [title, setTitle] = useState("");
   const [price, setPrice] = useState("");
@@ -21,6 +22,7 @@ const AddProperty = () => {
   const [storeRooms, setStoreRooms] = useState("1");
   const [location, setLocation] = useState("");
   const [description, setDescription] = useState("");
+  const [imageFiles, setImageFiles] = useState([]);
 
   const [visible, setVisible] = useState(false);
   const handleSetVisible = () => {
@@ -30,7 +32,9 @@ const AddProperty = () => {
     setVisible(false);
   };
   const onUpload = (data) => {
-    console.log("Upload files", data);
+
+    setImageFiles(data)
+
   };
   const onSelect = (data) => {
     console.log("Select files", data);
@@ -76,7 +80,7 @@ const AddProperty = () => {
   const handleSubmit = async (event) => {
     // event.preventDefault()
     const formData = new FormData();
-    console.log("selectedFile", event[0].file);
+
     for (let i = 0; i < event.length; i++) {
       formData.append("uploadedImages", event[i].file);
     }
@@ -84,7 +88,7 @@ const AddProperty = () => {
     try {
       const response = await axios({
         method: "post",
-        url: "http://localhost:8000/properties/addproperty",
+        url: `${originURL}/properties/addproperty`,
         data: formData,
         headers: { "Content-Type": "multipart/form-data" },
       });
@@ -106,51 +110,73 @@ const AddProperty = () => {
           <Card className="p-5 res">
             <h3>Add Property</h3>
             <Card style={{ border: "none" }}>
-              <Form
-                onSubmit={() => {
-                  console.log(
-                    "property show",
-                    title,
-                    price,
-                    propetyType,
-                    city,
-                    purpose,
-                    area,
-                    bedrooms,
-                    washrooms,
-                    landArea,
-                    kitchen,
-                    storeRooms,
-                    location,
-                    description
-                  );
+              <Form noValidate
+                onSubmit={async (e) => {
 
-                  axios
-                    .post(
-                      "http://localhost:8000/properties/addproperty",
-                      {
-                        propertytitle: title,
-                        price: parseFloat(price),
-                        propertytype: propetyType,
-                        city: city,
-                        purpose: purpose,
-                        area: area,
-                        rooms: bedrooms,
-                        bath: washrooms,
-                        area: landArea,
-                        kitchen: kitchen,
-                        storeroom: storeRooms,
-                        location: location,
-                        description: description,
-                      },
-                      { withCredentials: true }
-                    )
-                    .then((res) => {
-                      console.log("property added");
-                    })
-                    .catch((err) => {
-                      console.log("property data submit error: ", err);
+                  e.preventDefault()
+
+
+
+                  const formData = new FormData();
+
+                  for (let i = 0; i < imageFiles.length; i++) {
+                    formData.append("uploadedImages", imageFiles[i].file);
+                  }
+
+                  formData.append("propertytitle", title);
+                  formData.append("price", parseFloat(price));
+                  formData.append("propertytype", propetyType);
+                  formData.append("city", city);
+                  formData.append("purpose", purpose);
+                  formData.append("rooms", bedrooms);
+                  formData.append("bath", washrooms);
+                  formData.append("area", landArea);
+                  formData.append("kitchen", kitchen);
+                  formData.append("storeroom", storeRooms);
+                  formData.append("location", location);
+                  formData.append("description", description);
+
+
+
+              
+                  try {
+                    const response = await axios({
+                      method: "post",
+                      url: `${originURL}/properties/addproperty`,
+                      data: formData,
+                      headers: { "Content-Type": "multipart/form-data" },
                     });
+              
+                    console.log("response", response);
+                  } catch (error) {
+                    console.log(error);
+                  }
+                  
+                  // axios
+                  //   .post(
+                  //     "http://localhost:8000/properties/addproperty",
+                  //     {
+                  //       propertytitle: title,
+                  //       price: parseFloat(price),
+                  //       propertytype: propetyType,
+                  //       city: city,
+                  //       purpose: purpose,
+                  //       rooms: bedrooms,
+                  //       bath: washrooms,
+                  //       area: landArea,
+                  //       kitchen: kitchen,
+                  //       storeroom: storeRooms,
+                  //       location: location,
+                  //       description: description,
+                  //     },
+                  //     { withCredentials: true }
+                  //   )
+                  //   .then((res) => {
+                  //     console.log("property added");
+                  //   })
+                  //   .catch((err) => {
+                  //     console.log("property data submit error: ", err);
+                  //   });
                 }}
               >
                 <div className="res">
@@ -549,19 +575,21 @@ const AddProperty = () => {
                     ></Form.Control>
                   </div>
                 </div>
+                
+                <RMIUploader
+                isOpen={visible}
+                hideModal={hideModal}
+                onSelect={onSelect}
+                onUpload={onUpload}
+                onRemove={onRemove}
+              />
 
                 <Button variant="success" className="mt-3" type="submit">
                   Add Property
                 </Button>
               </Form>
 
-              <RMIUploader
-                isOpen={visible}
-                hideModal={hideModal}
-                onSelect={onSelect}
-                onUpload={handleSubmit}
-                onRemove={onRemove}
-              />
+          
             </Card>
           </Card>
         </Container>

@@ -2,8 +2,8 @@ const mongoose = require('mongoose')
 const AutoIncrement = require("mongoose-sequence")(mongoose)
 const propertySchema = new mongoose.Schema({
   propertyno: Number,
-  img: {
-    type: String,
+  images: {
+    type: Array,
 
   },
 

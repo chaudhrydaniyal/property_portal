@@ -6,6 +6,7 @@ import { consts } from "react-elastic-carousel";
 import "./slider.css";
 import { Link, useLocation } from "react-router-dom";
 import axios from "axios";
+import originURL from "../../url";
 
 function Sliders() {
   const location = useLocation();
@@ -15,9 +16,9 @@ function Sliders() {
   const [appartments, setAppartments] = useState([]);
   const [houses, setHouses] = useState([]);
   var urlAppartments =
-    "http://localhost:8000/properties?propertyType=Flats_Apartments&page=1&limit=8";
+    `${originURL}/properties?propertyType=Flats_Apartments&page=1&limit=8`;
   var urlHouses =
-    "http://localhost:8000/properties?propertyType=Houses_Property&page=1&limit=8";
+    `${originURL}/properties?propertyType=Houses_Property&page=1&limit=8`;
 
   const fetchDATA = async () => {
     try {
@@ -52,7 +53,7 @@ function Sliders() {
 
   return (
     <>
-      <div style={{ margin: "20px 70px" }}>
+      <div style={{ margin: "20px 70px", marginTop: "60px" }}>
         <Link
           to="/propertylisting"
           state={{
@@ -60,7 +61,7 @@ function Sliders() {
           }}
           className="sliderlink"
         >
-          <h6 style={{ fontWeight: "bold", fontSize: "20px" }}> Appartments</h6>
+          <h6 style={{ fontWeight: "700", fontSize: "25px", borderBottom:"1px solid #444", width:"13%" }}> Appartments</h6>
         </Link>
       </div>
 
@@ -77,36 +78,38 @@ function Sliders() {
               <div className="mx-2 ">
                 <div key={item.id}>
                   <Card className="cards" >
-                    <Card.Img
-                      src={item.img}
-                      style={{ width: "330px", height: "230px" ,objectFit:"cover" }}
-                    />
-                    <Card.Body className="body">
-                      <Card.Title className="title">
-                        {" "}
-                        <p className="price">{item.price}</p>
-                      </Card.Title>
-                      <Card.Text>
-                        {/* <p style={{fontSize:"15px",fontWeight:"semi-bold"}}>{item.title}</p> */}
-                        <Link
-                          to="propertylisting/propertyDetail"
-                          state={{
-                            item: item,
-                          }}
-                          style={{ textDecoration: "none", color: "#444" }}
-                        >
-                        <p className="mb-0 p-0">{item.title}</p>
-                        </Link>
-                        <div className="icn">
-                          <div>
-                            <i class="fa-solid fa-bath"></i>&nbsp;4
+                    <Link
+                      to="propertylisting/propertyDetail"
+                      state={{
+                        item: item,
+                      }}
+                      style={{ textDecoration: "none", color: "#444" }}
+                    >
+                      <Card.Img
+                        src={item.img}
+                        style={{ width: "330px", height: "230px", objectFit: "cover" }}
+                      />
+                      <Card.Body className="body">
+                        <Card.Title className="title">
+                          {" "}
+                          <p className="price">{item.price}</p>
+                        </Card.Title>
+                        <Card.Text>
+                          {/* <p style={{fontSize:"15px",fontWeight:"semi-bold"}}>{item.title}</p> */}
+
+                          <p className="mb-0 p-0">{item.title}</p>
+                          <div className="icn">
+                            <div>
+                              <i class="fa-solid fa-bath"></i>&nbsp;4
+                            </div>
+                            <div className="px-2">
+                              <i class="fa-solid fa-bed"></i>&nbsp;5
+                            </div>
                           </div>
-                          <div className="px-2">
-                            <i class="fa-solid fa-bed"></i>&nbsp;5
-                          </div>
-                        </div>
-                      </Card.Text>
-                    </Card.Body>
+                        </Card.Text>
+                      </Card.Body>
+                    </Link>
+
                   </Card>
                 </div>
               </div>
@@ -115,7 +118,7 @@ function Sliders() {
         })}
       </Carousel>
 
-      <div style={{ margin: "20px 70px" }}>
+      <div style={{ margin: "20px 70px", }}>
         <Link
           to="/propertylisting"
           state={{
@@ -123,9 +126,9 @@ function Sliders() {
           }}
           className="sliderlink"
         >
-          <h6 style={{ fontWeight: "bold", fontSize: "20px" }}>
+          <h6 style={{ fontWeight: "700", fontSize: "25px", borderBottom:"1px solid #444", width:"7%" }}>
             {" "}
-            Houses For Rent
+            Houses
           </h6>
         </Link>
       </div>
@@ -142,36 +145,39 @@ function Sliders() {
               <div className="mx-2 ">
                 <div key={item.id}>
                   <Card className="cards">
-                    <Card.Img
-                      src={item.img}
-                      style={{width: "330px", height: "230px" ,objectFit:"cover"}}
-                    />
-                    <Card.Body className="body">
-                      <Card.Title className="title">
-                        {" "}
-                        <p className="price">{item.price}</p>
-                      </Card.Title>
-                      <Card.Text>
-                        {/* <p style={{fontSize:"15px",fontWeight:"semi-bold"}}>{item.title}</p> */}
-                        <Link
-                          to="propertylisting/propertyDetail"
-                          state={{
-                            item: item,
-                          }}
-                          style={{ textDecoration: "none", color: "#444" }}
-                        >
+                    <Link
+                      to="propertylisting/propertyDetail"
+                      state={{
+                        item: item,
+                      }}
+                      style={{ textDecoration: "none", color: "#444" }}
+                    >
+                      <Card.Img
+                        src={item.img}
+                        style={{ width: "330px", height: "230px", objectFit: "cover" }}
+                      />
+
+                      <Card.Body className="body">
+                        <Card.Title className="title">
+                          {" "}
+                          <p className="price">{item.price}</p>
+                        </Card.Title>
+                        <Card.Text>
+                          {/* <p style={{fontSize:"15px",fontWeight:"semi-bold"}}>{item.title}</p> */}
+
                           <p className="mb-0 p-0">{item.title}</p>
-                        </Link>
-                        <div className="icn">
-                          <div>
-                            <i class="fa-solid fa-bath"></i>&nbsp;4
+                          <div className="icn">
+                            <div>
+                              <i class="fa-solid fa-bath"></i>&nbsp;4
+                            </div>
+                            <div className="px-2">
+                              <i class="fa-solid fa-bed"></i>&nbsp;5
+                            </div>
                           </div>
-                          <div className="px-2">
-                            <i class="fa-solid fa-bed"></i>&nbsp;5
-                          </div>
-                        </div>
-                      </Card.Text>
-                    </Card.Body>
+                        </Card.Text>
+                      </Card.Body>
+                    </Link>
+
                   </Card>
                 </div>
               </div>

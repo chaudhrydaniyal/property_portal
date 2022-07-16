@@ -5,6 +5,7 @@ import { Link } from "react-router-dom";
 import axios from "axios";
 
 import "./header.css";
+import originURL from "../../url";
 const Header = () => {
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
@@ -97,7 +98,7 @@ const Header = () => {
               // make axios post request
               const response = await axios({
                 method: "post",
-                url: "http://localhost:8000/auth/login",
+                url: `${originURL}/auth/login`,
                 data: {
                   username: username,
                   password: password,

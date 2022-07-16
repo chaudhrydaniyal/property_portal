@@ -1,5 +1,6 @@
 import React from "react";
 import { Container, Row, Col, Card, Button } from "react-bootstrap";
+import originURL from "../../url";
 
 import axios from "axios";
 import { useState, useEffect } from "react";
@@ -21,9 +22,9 @@ const PropertyListing = (props) => {
   const [page, setPage] = useState(1);
   var url = "";
   if (location.state) {
-    url = `http://localhost:8000/properties?propertyType=${location.state.propertyType}&page=${page}&limit=20`;
+    url = `${originURL}/properties?propertyType=${location.state.propertyType}&page=${page}&limit=20`;
   } else {
-    url = `http://localhost:8000/properties?propertyType=all_properties&page=${page}&limit=20`;
+    url = `${originURL}/properties?propertyType=all_properties&page=${page}&limit=20`;
   }
   const fetchDATA = async () => {
     try {
@@ -49,7 +50,9 @@ const PropertyListing = (props) => {
           <div className="">
             {" "}
             <p className="" style={{ fontSize: "20px", fontWeight: "bold" }}>
-              Newly Listed Properties
+
+              {location.state?location.state.propertyType:"Property Listing"}
+
             </p>
           </div>
           <Row className="  mb-5">
@@ -58,6 +61,14 @@ const PropertyListing = (props) => {
                 <>
                   <Col className="items" lg="3" key={item._id}>
                     <Card style={{ width: "18rem" }}>
+                    <Link
+                          to="propertyDetail"
+                          state={{
+                                item:item
+                          }}
+                          style={{textDecoration:"none",
+                          color:"#444"
+                          }}>
                       <Card.Img
                         variant="top"
                         src={item.img}
@@ -86,23 +97,10 @@ const PropertyListing = (props) => {
                             </div>
                           </Card.Title>
                         <Card.Text>
-                        <Link
-                          to="propertyDetail"
-                          state={{
-
-                                item:item
-
-
-                          }}
-                          style={{textDecoration:"none",
-                          color:"#444"
-                          }}
-
->
+      
                           <p style={{ fontSize: "15px", fontWeight: "bold" }}>
                             {item.title}
                           </p>
-                          </Link>
 
                           <div
                             style={{ display: "flex", justifyContent: "start" }}
@@ -120,6 +118,8 @@ const PropertyListing = (props) => {
                           </div>
                         </Card.Text>
                       </Card.Body>
+                      </Link>
+
                     </Card>
                   </Col>
                 </>

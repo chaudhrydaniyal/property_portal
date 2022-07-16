@@ -8,6 +8,9 @@ const propertyRoute = require("./Routes/properties");
 const cookieparser = require("cookie-parser");
 const dotenv = require("dotenv");
 
+
+
+
 var bodyParser = require("body-parser");
 
 //DB connection
@@ -18,7 +21,9 @@ app.use(cookieparser());
 app.use(express.json()); // for json
 
 
-app.use(cors({ credentials: true, origin: "http://localhost:3000" }));
+// app.use(cors({ credentials: true, origin: "http://localhost:3000" }));
+
+
 app.use("/auth", authRoute);
 app.use("/users", userRoute);
 app.use("/properties", propertyRoute);

@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import originURL from "../../url.js";
 import SignUpForm from "./SignUpForm.js";
 const axios = require("axios");
 const FormValidators = require("./Validate");
@@ -85,7 +86,7 @@ class SignUpContainer extends Component {
     // var params = { username: user.usr, password: user.pw, email: user.email };
     console.log("user", user);
     axios
-      .post("http://localhost:8000/auth/register", {
+      .post(`${originURL}/auth/register`, {
         fullname: user.fullname,
         username: user.usr,
         email: user.email,
