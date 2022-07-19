@@ -7,16 +7,21 @@ import Avatar from '@mui/material/Avatar';
 import "./header.css";
 import avatar from './avatar.webp'
 import originURL from "../../url";
+import NotificationManager from "react-notifications/lib/NotificationManager";
+import NotificationContainer from "react-notifications/lib/NotificationContainer";
+import 'react-notifications/lib/notifications.css';
 const Header = () => {
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
   const [show, setShow] = useState(false);
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const [loggedIn, setLoggedIn] = useState(false)
+  const [loggedIn, setLoggedIn] = useState(false);
+  const [userAvatar, setUserAvatar] = useState("")
 
   return (
     <div>
+
       <Navbar bg="success" expand="lg" className="text-white" fixed={"top"}>
         <Container>
           <Navbar.Brand className="br">
@@ -67,7 +72,11 @@ const Header = () => {
                 loggedIn ?
                   <>
 
-                    <Avatar src={avatar} />
+
+
+                    {userAvatar == "" ?
+                      <Avatar src={avatar} /> :
+                      <Avatar src={userAvatar} />}
                     &nbsp;
                     <Nav.Link className="item" onClick={() => { setLoggedIn(false) }}>
                       Logout
@@ -93,8 +102,11 @@ const Header = () => {
               }
             </Nav>
           </Navbar.Collapse>
+
         </Container>
+
       </Navbar>
+      <NotificationContainer />
 
       <Modal
         show={show}
@@ -128,17 +140,20 @@ const Header = () => {
 
               console.log("response status", response.status)
               if (response.status == 200) {
+                setUserAvatar(response.data.details.image)
                 setLoggedIn(true)
+                NotificationManager.success("LogIn Success");
                 setShow(false)
-              } 
+              }
 
 
               console.log("response", response);
+
             } catch (error) {
 
-              alert("Please type correct email and password.")
 
               console.log(error);
+              NotificationManager.error('Wrong Credientials')
             }
           }}
         >
@@ -164,6 +179,7 @@ const Header = () => {
           </Modal.Footer>
         </Form>
       </Modal>
+
     </div>
   );
 };

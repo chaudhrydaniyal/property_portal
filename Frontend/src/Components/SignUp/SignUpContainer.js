@@ -1,10 +1,14 @@
 import React, { Component } from "react";
+import NotificationManager from "react-notifications/lib/NotificationManager";
 import originURL from "../../url.js";
 import SignUpForm from "./SignUpForm.js";
+import 'react-notifications/lib/notifications.css';
 const axios = require("axios");
 const FormValidators = require("./Validate");
 const validateSignUpForm = FormValidators.validateSignUpForm;
+
 const zxcvbn = require("zxcvbn");
+
 
 class SignUpContainer extends Component {
   constructor(props) {
@@ -95,18 +99,22 @@ class SignUpContainer extends Component {
         isAdmin: false,
       })
       .then((res) => {
+        NotificationManager.success("User registered successfully!")
         if (res.data.success === true) {
           localStorage.token = res.data.token;
           localStorage.isAuthenticated = true;
           window.location.reload();
+          
         } else {
           this.setState({
-            errors: { message: res.data.message },
+            errors: { message: res.data.message },   
           });
+          
         }
       })
       .catch((err) => {
         console.log("Sign up data submit error: ", err);
+        NotificationManager.error("This email or username already exists!")
       });
   }
 
@@ -205,6 +213,7 @@ class SignUpContainer extends Component {
           </p>{" "}
         </div>
        </div>
+       
       </div>
     );
   }

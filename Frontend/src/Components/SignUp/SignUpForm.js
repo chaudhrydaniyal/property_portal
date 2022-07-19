@@ -4,7 +4,11 @@ import RaisedButton from "material-ui/RaisedButton";
 import TextField from "material-ui/TextField";
 import PasswordStr from "./PasswordStr";
 import "./signup.css";
+import 'react-notifications/lib/notifications.css';
+import NotificationContainer from "react-notifications/lib/NotificationContainer";
+
 import { Link } from 'react-router-dom';
+import { NotificationManager } from "react-notifications";
 
 
 const SignUpForm = ({
