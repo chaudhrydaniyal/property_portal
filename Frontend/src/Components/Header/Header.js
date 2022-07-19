@@ -3,8 +3,9 @@ import { useState } from "react";
 import { Navbar, Container, Nav, Modal, Button, Form } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import axios from "axios";
-
+import Avatar from '@mui/material/Avatar';
 import "./header.css";
+import avatar from './avatar.webp'
 import originURL from "../../url";
 const Header = () => {
   const handleClose = () => setShow(false);
@@ -12,6 +13,8 @@ const Header = () => {
   const [show, setShow] = useState(false);
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [loggedIn, setLoggedIn] = useState(false)
+
   return (
     <div>
       <Navbar bg="success" expand="lg" className="text-white" fixed={"top"}>
@@ -60,17 +63,34 @@ const Header = () => {
                   <span>Add Property</span>
                 </Link>
               </Nav.Link>
-              <Nav.Link>
-                <Link to="/" className="item" onClick={handleShow}>
-                  Login
-                </Link>
-              </Nav.Link>
-              <Nav.Link>
-                <Link to="/register" className="item">
-                  {" "}
-                  Signup
-                </Link>
-              </Nav.Link>
+              {
+                loggedIn ?
+                  <>
+
+                    <Avatar src={avatar} />
+                    &nbsp;
+                    <Nav.Link className="item" onClick={() => { setLoggedIn(false) }}>
+                      Logout
+                    </Nav.Link>
+
+                  </>
+                  :
+
+                  <>
+
+                    <Nav.Link>
+                      <Link to="/" className="item" onClick={handleShow}>
+                        Login
+                      </Link>
+                    </Nav.Link>
+                    <Nav.Link>
+                      <Link to="/register" className="item">
+                        {" "}
+                        Signup
+                      </Link>
+                    </Nav.Link>
+                  </>
+              }
             </Nav>
           </Navbar.Collapse>
         </Container>
@@ -106,8 +126,18 @@ const Header = () => {
                 headers: { "Content-Type": "application/json" },
               });
 
+              console.log("response status", response.status)
+              if (response.status == 200) {
+                setLoggedIn(true)
+                setShow(false)
+              } 
+
+
               console.log("response", response);
             } catch (error) {
+
+              alert("Please type correct email and password.")
+
               console.log(error);
             }
           }}
