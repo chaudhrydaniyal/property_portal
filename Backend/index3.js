@@ -5,6 +5,7 @@ const connectionDB = require("./Connection/connection")
 const authRoute = require("./Routes/auth")
 const userRoute = require("./Routes/users")
 const propertyRoute = require("./Routes/properties")
+
 const cookieparser = require("cookie-parser")
 const dotenv = require('dotenv')
 //DB connection
@@ -17,6 +18,7 @@ app.use(express.json());
 app.use("/auth",authRoute);
 app.use('/users',userRoute);
 app.use('/properties',propertyRoute)
+app.use('/',featureRoute);
 // app.use(express.urlencoded({ extended: false }));
 //middleware error handling
 

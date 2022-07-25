@@ -16,7 +16,7 @@ function Sliders() {
   const [appartments, setAppartments] = useState([]);
   const [houses, setHouses] = useState([]);
   var urlAppartments =
-    `${originURL}/properties?propertyType=Flats_Apartments&page=1&limit=8`;
+    `${originURL}/properties?propertyType=Flat&page=1&limit=8`;
   var urlHouses =
     `${originURL}/properties?propertyType=Houses_Property&page=1&limit=8`;
 
@@ -92,18 +92,18 @@ function Sliders() {
                       <Card.Body className="body">
                         <Card.Title className="title">
                           {" "}
-                          <p className="price">{item.price}</p>
+                          <p className="price">{item.Price}</p>
                         </Card.Title>
                         <Card.Text>
                           {/* <p style={{fontSize:"15px",fontWeight:"semi-bold"}}>{item.title}</p> */}
 
-                          <p className="mb-0 p-0">{item.title}</p>
+                          <p className="mb-0 p-0">{item.Title}</p>
                           <div className="icn">
                             <div>
-                              <i class="fa-solid fa-bath"></i>&nbsp;4
+                              <i class="fa-solid fa-bath"></i>&nbsp;{item["Bath(s)"]}
                             </div>
                             <div className="px-2">
-                              <i class="fa-solid fa-bed"></i>&nbsp;5
+                              <i class="fa-solid fa-bed"></i>&nbsp;{item["Bedroom(s)"]}
                             </div>
                           </div>
                         </Card.Text>

@@ -97,6 +97,39 @@
 .overview p{
     margin-bottom: 0;
 }
+.overview2{
+    padding: 10px 10px;
+    background-color: #fafafa;
+    font-weight: 700;
+    display: flex;
+    margin-bottom: 0;
+    align-items: center;
+    border-radius: 4px;
+    font-weight: normal;
+    
+}
+.overview2 p{
+    margin-bottom: 0;
+}
+.over3{
+    padding:0;
+}
+.amenities{
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+}
+.mainfeatures{
+    
+    display:flex;
+    align-items: center;
+    
+}
+.mainfeatures h3{
+    font-size: 14px;
+    font-weight: 700;
+   
+}
 .detailflex{
     display: flex;
     padding: 10px 10px;

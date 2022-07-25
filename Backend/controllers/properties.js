@@ -150,7 +150,7 @@ function paginatedResults(model) {
           .exec();
       } else {
         results.results = await model
-          .find({ propertyType: property })
+          .find({ Type: property })
           .limit(limit)
           .skip(startIndex)
           .exec();

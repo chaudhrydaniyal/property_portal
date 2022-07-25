@@ -7,8 +7,8 @@ const userRoute = require("./Routes/users");
 const propertyRoute = require("./Routes/properties");
 const cookieparser = require("cookie-parser");
 const dotenv = require("dotenv");
-
-
+const purposeRoute = require("./Routes/Admin/AddPropertyForm")
+const featureRoute = require("./Routes/Admin/Addfeature")
 
 
 var bodyParser = require("body-parser");
@@ -27,7 +27,8 @@ app.use(express.json()); // for json
 app.use("/auth", authRoute);
 app.use("/users", userRoute);
 app.use("/properties", propertyRoute);
-
+app.use("/",purposeRoute)
+app.use("/",featureRoute);
 // app.use(bodyParser.urlencoded({ extended: true })) // for form data
 // Public Folder
 
