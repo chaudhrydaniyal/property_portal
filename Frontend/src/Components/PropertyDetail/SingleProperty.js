@@ -8,7 +8,7 @@ import { useLocation, useParams } from "react-router-dom";
 import { images } from "./index";
 import img1 from "../../Assets/2.webp";
 import styled from "styled-components";
-
+import icon from '../../Assets/tick.png'
 const SingleProperty = () => {
   const item = useLocation();
 
@@ -288,7 +288,11 @@ const SingleProperty = () => {
                       <p>Amenities</p>
                     </div>
                   </Card.Title>
+<<<<<<< HEAD
                   {propDetail["Main Features"] && (
+=======
+                  {propDetail["Main Features"] ? (
+>>>>>>> a3a931d44042ea3538d7fd0e6915eab0b95a2dce
                     <Card.Body className="over3">
                       <div className="overview2">
                         <div className="amenities">
@@ -317,7 +321,13 @@ const SingleProperty = () => {
                         </div>
                       </div>
                     </Card.Body>
+<<<<<<< HEAD
                   ) }
+=======
+                  ) : (
+                    ""
+                  )}
+>>>>>>> a3a931d44042ea3538d7fd0e6915eab0b95a2dce
                   {propDetail.Rooms ? <Card.Body className="over3 mt-2">
                     <div className="overview2">
                       <div className="amenities">
