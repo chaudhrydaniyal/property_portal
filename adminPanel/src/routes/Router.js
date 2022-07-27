@@ -1,5 +1,7 @@
 import { lazy } from "react";
 import { Navigate } from "react-router-dom";
+import Features from "../pages/Add Property/Features.js";
+import PropertySubtypes from "../pages/Add Property/PropertySubtypes.js";
 
 /****Layouts*****/
 const FullLayout = lazy(() => import("../layouts/FullLayout.js"));
@@ -37,7 +39,11 @@ const ThemeRoutes = [
       { path: "/forms", exact: true, element: <Forms /> },
       { path: "/breadcrumbs", exact: true, element: <Breadcrumbs /> },
        {path:"/properties" ,exact:true,element:<Properties/>},
-       {path:"/addproperty",exact:true,element:<AddProperties/>}
+       {path:"/addproperty",exact:true,element:<AddProperties/>},
+       {path:"/propertysubtypes",exact:true,element:<PropertySubtypes/>},
+       {path:"/features",exact:true,element:<Features/>}
+
+
     ],
   },
 ];

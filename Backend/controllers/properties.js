@@ -142,7 +142,8 @@ function paginatedResults(model) {
     }
     try {
       if (property == "all_properties") {
-        console.log("called");
+
+
         results.results = await model
           .find()
           .limit(limit)
@@ -154,7 +155,19 @@ function paginatedResults(model) {
           .limit(limit)
           .skip(startIndex)
           .exec();
+          console.log( results.results.length)
       }
+
+    //   results.results = JSON.parse(JSON.stringify(results.results))
+
+
+
+    // const filterResults = await results.results.filter((f)=>f.Type == "House")
+
+    console.log("filter", results.results.length)
+
+      
+    
       res.paginatedResults = results.results;
 
       next();

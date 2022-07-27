@@ -81,7 +81,7 @@ const PropertyListing = (props) => {
                             {" "}
                             <div>
                               {" "}
-                              {item.price ? (
+                              {item.Price ? (
                                 <p
                                   style={{
                                     fontSize: "15px",
@@ -89,7 +89,7 @@ const PropertyListing = (props) => {
                                     color: "green",
                                   }}
                                 >
-                                  {item.price}
+                                  {item.Price}
                                 </p>
                               ) : (
                                 "-"
@@ -99,7 +99,7 @@ const PropertyListing = (props) => {
                         <Card.Text>
       
                           <p style={{ fontSize: "15px", fontWeight: "bold" }}>
-                            {item.title}
+                            {item.Title}
                           </p>
 
                           <div
@@ -108,12 +108,12 @@ const PropertyListing = (props) => {
                             <div>
                               <i class="fa-solid fa-bath"></i>
                               &nbsp;
-                              {item.washrooms}
+                              {item["Bath(s)"]}
                             </div>
                             <div className="px-2">
                               <i class="fa-solid fa-bed"></i>
                               &nbsp;
-                              {item.bedrooms}
+                              {item["Bedroom(s)"]}
                             </div>
                           </div>
                         </Card.Text>
@@ -138,7 +138,7 @@ const PropertyListing = (props) => {
       >
         <Stack spacing={2}>
           <Pagination
-            count={location.state ? 20 : 40}
+            count={location.state ? 200 : 400}
             size="large"
             onChange={(e, p) => {
               console.log("eeeeeeeee", p);

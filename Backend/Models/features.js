@@ -3,7 +3,7 @@ const Propertyfeature = mongoose.Schema({
     
     featurename:{
         type:String,
-        unique:true
+
         
     },
     featuretype:{

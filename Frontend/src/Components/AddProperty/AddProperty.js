@@ -1,7 +1,8 @@
 import React from "react";
 import { Card, Form, Button, Container } from "react-bootstrap";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { RMIUploader } from "react-multiple-image-uploader";
+import Modal from 'react-bootstrap/Modal';
 
 import axios from "axios";
 import "./add.css";
@@ -25,6 +26,79 @@ const AddProperty = () => {
   const [imageFiles, setImageFiles] = useState([]);
 
   const [visible, setVisible] = useState(false);
+
+
+
+  //Form Data
+
+  const [purposeData, setPurposeData] = useState([]);
+  const [propertyTypeData, setPropertyTypeData] = useState([]);
+  const [propertySubtypeData, setPropertySubtypeData] = useState([]);
+
+
+
+
+  const [propertyFeatures, setPropertyFeatures] = useState([]);
+
+
+
+  useEffect(() => {
+
+    async function fetchData() {
+      const res = await axios.get(`${originURL}/addproperty/purpose`);
+      setPurposeData(res.data.getpurpose)
+
+      const res2 = await axios.get(`${originURL}/addproperty/propertytype`);
+      setPropertyTypeData(res2.data.getType)
+    }
+
+    try {
+
+      fetchData()
+    }
+    catch (error) {
+      console.log(error);
+    }
+
+
+  }, []);
+
+
+
+
+  // features form data
+
+  const [inputs, setInputs] = useState({});
+
+  const handleChange =  (event) => {
+    const name = event.target.name;
+
+    var value =""
+    if (event.target.type=="checkbox"){
+       value = event.target.checked;
+    }
+    else{
+     value = event.target.value;
+    }
+    console.log("value",value)
+    setInputs(values => ({ ...values, [name]: value }))
+    
+
+    console.log("inputeeeeee", inputs)
+
+  }
+
+  // const handleSubmit = (event) => {
+  //   event.preventDefault();
+  //   alert(inputs);
+  // }
+
+
+
+
+
+
+
   const handleSetVisible = () => {
     setVisible(true);
   };
@@ -103,6 +177,12 @@ const AddProperty = () => {
     setSelectedFile(event.target.files[0]);
   };
 
+
+  const [show, setShow] = useState(false);
+
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
+
   return (
     <>
       <div style={{ marginTop: "100px", padding: "20px" }}>
@@ -138,7 +218,7 @@ const AddProperty = () => {
 
 
 
-              
+
                   try {
                     const response = await axios({
                       method: "post",
@@ -146,12 +226,12 @@ const AddProperty = () => {
                       data: formData,
                       headers: { "Content-Type": "multipart/form-data" },
                     });
-              
+
                     console.log("response", response);
                   } catch (error) {
                     console.log(error);
                   }
-                  
+
                   // axios
                   //   .post(
                   //     "http://localhost:8000/properties/addproperty",
@@ -200,21 +280,110 @@ const AddProperty = () => {
                 </div>
                 <div className="ff">
                   <div>
+
+
+                    <br />
+                    <h5>Property Type</h5>
+
+
+                    <div onChange={
+                      async (e) => {
+
+
+                        setPropertyType(e.target.value)
+                        const res2 = await axios.get(`${originURL}/addproperty/propertysubtype/${e.target.value}`);
+
+                        setPropertySubtypeData(res2.data.detail)
+
+
+                      }}>
+                      {propertyTypeData.map((p) =>
+                        <>
+                          <input type="radio" value={`${p._id}`} name="propertyType" /> {p.propertyType} &nbsp;
+                        </>
+                      )
+
+                      }
+                    </div>
+                    <br />
                     <Form.Label className="mt-3 select">
-                      Property type
+                      Property Subtype
                     </Form.Label>
+
                     <Form.Select
-                      onChange={(e) => setPropertyType(e.target.value)}
+                      onChange={async (e) => {
+
+                        setPropertyType(e.target.value)
+                        const res2 = await axios.get(`${originURL}/addproperty/feature/62df70b823cc1d7ece9995ba`);
+
+                        setPropertyFeatures(res2.data.get)
+
+
+                      }}
                       required
                     >
                       <option value="" disabled selected>
-                        Select the Type
+                        Select Subtype
                       </option>
-                      <option>flat</option>
-                      <option>home</option>
-                      <option>plot</option>
+
+                      {propertySubtypeData && propertySubtypeData.map((p) => <option>{p.propertysubtype}</option>)}
+
+
                     </Form.Select>
                   </div>
+
+                  <Button onClick={handleShow}>Add Features</Button>
+                  <Modal style={{ marginTop: "30vh" }} show={show} size="lg" onHide={handleClose} animation={false}>
+                    <Modal.Header closeButton>
+                      <Modal.Title>Property Features</Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>
+
+                      <form>
+
+                        <div className="d-flex" onChange={handleChange}>
+
+
+                          {propertyFeatures.map((pf) =>
+                            <div style={{ width: "400px" }}>
+                              <span>{pf.featurename} &nbsp;</span>
+                              <input type={`${pf.featuretype}`} name={`${pf.featurename}`} />
+                            </div>
+                          )}
+
+
+                          {/* <span>Student Name: &nbsp;</span>
+                        <input type="text" name="sname" />
+                        <span>Student Subject: &nbsp;</span>
+                        <input type="text" name="ssubject" /> */}
+                        </div>
+                        <br />
+
+                        
+
+                      </form>
+
+                      {/* <input style={{ width: "80%" }} onChange={(e) => null}></input> */}
+                    </Modal.Body>
+                    <Modal.Footer>
+                      <Button variant="secondary" onClick={handleClose}>
+                        Close
+                      </Button>
+                      <Button onClick={()=>{console.log("submit",inputs)
+                        try {
+
+
+
+                          handleClose()
+                        } catch (err) {
+                          console.log(err)
+                        }
+                      }}>
+
+                        Save
+                      </Button>
+                    </Modal.Footer>
+                  </Modal>
                   <div>
                     <Form.Label className="mt-3 select">City</Form.Label>
                     <Form.Select
@@ -225,6 +394,9 @@ const AddProperty = () => {
                         Select The City
                       </option>
                       <option value="Islamabad">Islamabad</option>
+                      <option value="Islamabad">Lahore</option>
+                      <option value="Islamabad">Karachi</option>
+
                       <option value="" disabled>
                         Punjab Cities
                       </option>
@@ -489,8 +661,8 @@ const AddProperty = () => {
                       <option value="" disabled selected>
                         purpose
                       </option>
-                      <option>sale</option>
-                      <option>rent</option>
+                      {purposeData.map((p) => <option>{p.purpose}</option>)}
+
                     </Form.Select>
                   </div>
                   <div>
@@ -575,21 +747,21 @@ const AddProperty = () => {
                     ></Form.Control>
                   </div>
                 </div>
-                
+
                 <RMIUploader
-                isOpen={visible}
-                hideModal={hideModal}
-                onSelect={onSelect}
-                onUpload={onUpload}
-                onRemove={onRemove}
-              />
+                  isOpen={visible}
+                  hideModal={hideModal}
+                  onSelect={onSelect}
+                  onUpload={onUpload}
+                  onRemove={onRemove}
+                />
 
                 <Button variant="success" className="mt-3" type="submit">
                   Add Property
                 </Button>
               </Form>
 
-          
+
             </Card>
           </Card>
         </Container>

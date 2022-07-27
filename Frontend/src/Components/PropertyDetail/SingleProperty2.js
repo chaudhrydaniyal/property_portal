@@ -30,6 +30,7 @@ const SingleProperty = () => {
                     <hr style={{ marginTop: "2px", color: "#444" }}></hr>
                   </div>
                 </Card.Title>
+                {/* {/ <Card.Img src={propDetail.img} alt="property_img" className='cardimg ' style={{ width: "800px", height: "500px", backgroundSize: "cover" }} /> /} */}
 
                 <Carousel
                   itemsToShow={1}
@@ -54,7 +55,17 @@ const SingleProperty = () => {
                       style={{ width: "800px", height: "500px" }}
                     />
 
-                    
+                    <div className="icon">
+                      <div>
+                        <i className="fa-solid fa-camera">&nbsp;&nbsp;8</i>
+                      </div>
+                    </div>
+
+                    <div className="icon icon2">
+                      <i className="fa-solid fa-location-dot">
+                        &nbsp;&nbsp;Lahore
+                      </i>
+                    </div>
                   </div>
                 </Carousel>
 
@@ -93,6 +104,7 @@ const SingleProperty = () => {
                 </Card.Title>
                 <Card className="handle">
                   <Card.Body className="handle">
+                   
                     <Card.Text>
                       <div
                         className=" mt-3 inner bg-success"
@@ -120,7 +132,7 @@ const SingleProperty = () => {
                               <div style={{ width: "40%" }}>
                                 <i class="fa-solid fa-user"></i>&nbsp;Owner
                               </div>
-                              <div style={{ width: "60%" }}>{propDetail.postedBy ? propDetail.postedBy :"Muhammad Noman"}</div>
+                              <div style={{ width: "60%" }}>Muhammad Noman</div>
                             </div>
                           </div>
                           <br></br>
@@ -157,7 +169,7 @@ const SingleProperty = () => {
                                 &nbsp;Location
                               </div>
                               <div style={{ width: "60%" }}>
-                                {propDetail.Location ? propDetail.Location :"N/A"}
+                                {propDetail.city}
                               </div>
                             </div>
                           </div>
@@ -168,7 +180,7 @@ const SingleProperty = () => {
                               <div style={{ width: "40%" }}>
                                 <i class="fa-solid fa-clock"></i> &nbsp;Added
                               </div>
-                              <div style={{ width: "60%" }}>{propDetail.Added ? propDetail.Added :"N/A"}</div>
+                              <div style={{ width: "60%" }}>2 Hours Ago</div>
                             </div>
                           </div>
                         </Card.Body>
@@ -192,7 +204,7 @@ const SingleProperty = () => {
                   <div style={{ width: "50%" }}>
                     <div style={{ display: "flex" }}>
                       <div style={{ width: "40%" }}>Type</div>
-                      <div style={{ width: "60%" }}>{propDetail.Type ? propDetail.Type :"N/A"}</div>
+                      <div style={{ width: "60%" }}>House</div>
                     </div>
                   </div>
                   <div style={{ width: "50%" }}>
@@ -223,14 +235,14 @@ const SingleProperty = () => {
                     <div style={{ display: "flex" }}>
                       <div style={{ width: "40%" }}>Location</div>
                       <div style={{ width: "60%" }}>
-                        {propDetail.Location ? propDetail.Location :"N/A"}
+                        DC Colony, Gujranwala, Punjab
                       </div>
                     </div>
                   </div>
                   <div style={{ width: "50%" }}>
                     <div style={{ display: "flex" }}>
                       <div style={{ width: "40%" }}>Bedroom(s)</div>
-                      <div style={{ width: "60%" }}>{propDetail["Bedroom(s)"] ? propDetail["Bedroom(s)"] :"N/A"}</div>
+                      <div style={{ width: "60%" }}>6</div>
                     </div>
                   </div>
                   <br></br>
@@ -239,7 +251,7 @@ const SingleProperty = () => {
                   <div style={{ width: "50%" }}>
                     <div style={{ display: "flex" }}>
                       <div style={{ width: "40%" }}>Bath(s)</div>
-                      <div style={{ width: "60%" }}>{propDetail["Bath(s)"] ? propDetail["Bath(s)"] :"N/A"}</div>
+                      <div style={{ width: "60%" }}>5</div>
                     </div>
                   </div>
                   <div style={{ width: "50%" }}>
@@ -258,6 +270,7 @@ const SingleProperty = () => {
             <Row>
               <Col xs={8}>
                 <Card className="maincard">
+                  {/* className='overview' */}
                   <Card.Title>
                     <div
                       className="font-bold overview"
@@ -267,7 +280,7 @@ const SingleProperty = () => {
                     </div>
                   </Card.Title>
                   <Card.Body>
-                    <div style={{ textAlign: "justify" }}>
+                    <div style={{ lineHeight: "1.5", textAlign: "justify" }}>
                       {propDetail.Description}
                     </div>
                   </Card.Body>
@@ -288,192 +301,71 @@ const SingleProperty = () => {
                       <p>Amenities</p>
                     </div>
                   </Card.Title>
-                  {propDetail["Main Features"] && (
-                    <Card.Body className="over3">
-                      <div className="overview2">
-                        <div className="amenities">
-                          <div
-                            className="mainfeatures"
-                            style={{ marginRight: "20px", width: "30%" }}
-                          >
-                            <h3>Main Features</h3>
-                          </div>
-                          <div style={{ display: "flex", flexWrap: "wrap" }}>
-                            {propDetail["Main Features"].map((i, index) => {
-                              return (
-                                <div
-                                  key={index}
-                                  style={{
-                                    padding: "0px 20px",
-                                    width: "200px",
-                                    textAlign: "justify",
-                                  }}
-                                >
-                                  <h6>{i}</h6>
-                                </div>
-                              );
-                            })}
-                          </div>
-                        </div>
-                      </div>
-                    </Card.Body>
-                  ) }
-                  {propDetail.Rooms ? <Card.Body className="over3 mt-2">
+                  <Card.Body className="over3">
                     <div className="overview2">
                       <div className="amenities">
-                        <div
-                          className="mainfeatures"
-                          style={{ marginRight: "25px", width: "30%" }}
-                        >
+                        <div className="mainfeatures" style={{marginRight:"20px"}}>
+                          <h3>Main Features</h3>
+                        </div>
+                        <div style={{display:"flex",flexWrap:"wrap"}}>
+                          {
+                            propDetail["Main Features"].map((i,index)=>{
+                              return(<div key={index} style={{padding:"0px 20px",width:"250px"}}><h6>{i}</h6></div>)
+                            })
+                          }
+                        </div>                        
+                      </div>
+                    </div>
+                  </Card.Body>
+                  <Card.Body className="over3 mt-2">
+                    <div className="overview2">
+                      <div className="amenities">
+                        <div className="mainfeatures">
                           <h3>Rooms</h3>
                         </div>
-                        <div style={{ display: "flex", flexWrap: "wrap" }}>
-                          {propDetail.Rooms.map((i, index) => {
-                            return (
-                              <div
-                                key={index}
-                                style={{
-                                  padding: "0px 20px",
-                                  width: "200px",
-                                  textAlign: "justify",
-                                }}
-                              >
-                                <h6>{i}</h6>
-                              </div>
-                            );
-                          })}
-                        </div>
-                      </div>
-                    </div>
-                  </Card.Body>:""
-                  }
-                  {propDetail["Bussiness And Communication"] ?
-                  <Card.Body className="over3 mt-2">
-                    <div className="overview2">
-                      <div className="amenities">
-                        <div
-                          className="mainfeatures"
-                          style={{ marginRight: "25px", width: "30%" }}
-                        >
-                          <h3>Bussiness And Communication</h3>
-                        </div>
-                        <div style={{ display: "flex", flexWrap: "wrap" }}>
-                          {propDetail["Bussiness And Communication"].map((i, index) => {
-                            return (
-                              <div
-                                key={index}
-                                style={{
-                                  padding: "0px 20px",
-                                  width: "200px",
-                                  textAlign: "justify",
-                                }}
-                              >
-                                <h6>{i}</h6>
-                              </div>
-                            );
-                          })}
-                        </div>
-                      </div>
-                    </div>
-                  </Card.Body>:""
-                  }
-                  {propDetail["Community Features"] ?
-                  <Card.Body className="over3 mt-2">
-                    <div className="overview2">
-                      <div className="amenities">
-                        <div
-                          className="mainfeatures"
-                          style={{ marginRight: "25px", width: "30%" }}
-                        >
-                          <h3>Community Features</h3>
-                        </div>
-                        <div style={{ display: "flex", flexWrap: "wrap" }}>
-                          {propDetail["Community Features"].map((i, index) => {
-                            return (
-                              <div
-                                key={index}
-                                style={{
-                                  padding: "0px 20px",
-                                  width: "200px",
-                                  textAlign: "justify",
-                                }}
-                              >
-                                <h6>{i}</h6>
-                              </div>
-                            );
-                          })}
-                        </div>
-                      </div>
-                    </div>
-                  </Card.Body>:""
-                   }
-                 { propDetail["Nearby Locations and Other Facilities"] ?
-                 <Card.Body className="over3 mt-2">
-                    <div className="overview2">
-                      <div className="amenities">
-                        <div
-                          className="mainfeatures"
-                          style={{
-                            marginRight: "25px",
-                            width: "30%",
-                            textAlign: "justify",
-                          }}
-                        >
-                          <h3>Nearby Locations and Other Facilities</h3>
-                        </div>
-                        <div style={{ display: "flex", flexWrap: "wrap" }}>
-                          {propDetail["Nearby Locations and Other Facilities"].map((i, index) => {
-                            return (
-                              <div
-                                key={index}
-                                style={{
-                                  padding: "0px 20px",
-                                  width: "200px",
-                                  textAlign: "justify",
-                                }}
-                              >
-                                <h6>{i}</h6>
-                              </div>
-                            );
-                          })}
-                        </div>
-                      </div>
-                    </div>
-                  </Card.Body>:""
-                 }
-                  {propDetail["Other Facilities\n"] ? 
-                    <Card.Body className="over3 mt-2">
-                      <div className="overview2">
-                        <div className="amenities">
-                          <div
-                            className="mainfeatures"
-                            style={{ marginRight: "25px", width: "30%" }}
-                          >
-                            <h3>Other Facilities</h3>
+                        <div>
+                          <div>
+                            <h6>Bedrooms: 4</h6>
                           </div>
-                          <div style={{ display: "flex", flexWrap: "wrap" }}>
-                            {propDetail["Other Facilities\n"].map(
-                              (i, index) => {
-                                return (
-                                  <div
-                                    key={index}
-                                    style={{
-                                      padding: "0px 20px",
-                                      width: "200px",
-                                      textAlign: "justify",
-                                    }}
-                                  >
-                                    <h6>{i}</h6>
-                                  </div>
-                                );
-                              }
-                            )}
+                          <div>
+                            <h6>Drawing Room</h6>
+                          </div>
+                          <div>
+                            <h6>Study Room</h6>
+                          </div>
+                          <div>
+                            <h6>Store Rooms: 1</h6>
+                          </div>
+                          <div>
+                            <h6>Laundry Room</h6>
                           </div>
                         </div>
+                        <div>
+                          <div>
+                            <h6>Bathrooms: 5</h6>
+                          </div>
+                          <div>
+                            <h6>Dining Room</h6>
+                          </div>
+                          <div>
+                            <h6>Prayer Room</h6>
+                          </div>
+                          <div>
+                            <h6>Steam Room</h6>
+                          </div>
+                          <div>
+                            <h6>Other Rooms</h6>
+                          </div>
+                        </div>
+                        <div>
+                           <div><h6>Servant Quarters: 1</h6></div>
+                           <div><h6>Kitchens: 1</h6></div>
+                           <div><h6>Powder Room</h6></div>
+                           <div><h6>Lounge or Sitting Room</h6></div>
+                        </div>
                       </div>
-                    </Card.Body> : ""
-                    
-                  }
+                    </div>
+                  </Card.Body>
                 </Card>
               </Col>
             </Row>
