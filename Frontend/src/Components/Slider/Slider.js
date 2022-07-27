@@ -61,7 +61,7 @@ function Sliders() {
           }}
           className="sliderlink"
         >
-          <h6 style={{ fontWeight: "700", fontSize: "25px", borderBottom:"1px solid #444", width:"13%" }}> Appartments</h6>
+          <h6 style={{ fontWeight: "700", fontSize: "25px", width:"13%", color:"green" }}> Appartments</h6>
         </Link>
       </div>
 
@@ -126,7 +126,7 @@ function Sliders() {
           }}
           className="sliderlink"
         >
-          <h6 style={{ fontWeight: "700", fontSize: "25px", borderBottom:"1px solid #444", width:"7%" }}>
+          <h6 style={{ fontWeight: "700", fontSize: "25px",color:"green", width:"7%" }}>
             {" "}
             Houses
           </h6>

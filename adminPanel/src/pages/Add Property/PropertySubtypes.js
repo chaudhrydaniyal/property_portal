@@ -92,8 +92,11 @@ const PropertySubtypes = () => {
               <Form>
                 <FormGroup>
 
-                  <label>{propDetail.propertyType} Subtypes</label>      <Button style={{ marginLeft: "auto" }} variant="success" onClick={handleShow}>Add More</Button>{' '}
+                  <div className='d-flex justify-content-between align-items-center ps-3 pe-3'> 
 
+                  <label>{propDetail.propertyType} Subtypes</label>      <Button style={{ marginLeft: "auto" }} variant="success" onClick={handleShow}>Add More</Button>{' '}
+                  </div>
+                  <br />
                   <Modal style={{ marginTop: "30vh" }} show={show} onHide={handleClose} animation={false}>
                     <Modal.Header closeButton>
                       <Modal.Title>Add another Subtype</Modal.Title>
@@ -127,18 +130,34 @@ const PropertySubtypes = () => {
                   </Modal>
 
                   <ListGroup>
-                    {propertySubtype && propertySubtype.map((p) =>
-                      <ListGroup.Item>
-                        {p.propertysubtype}
-                        <Link to="/features"
-                        state={{item:p}}>
+                    {propertySubtype && propertySubtype.map((p,index) =>
 
-                          <span style={{ marginLeft: "50px" }}>Features</span>
+                    <Row>
+                      <ListGroup.Item className='d-flex justify-content-between align-items-center ps-5 pe-5'>
+
+
+<Col>
+                      <span style={{ marginLeft: "20%" }}>
+                              {index + 1}.
+                            </span>
+
+                            </Col>
+                        <Col>
+                        {p.propertysubtype}
+                        </Col>
+                        <Col>
+                        <Link to="/features"
+                        state={{item:p}}
+                        style={{ marginLeft: "50px", textDecoration: "none", color: "green", fontWeight:"700" }}
+                        >
+
+                          <span >Features</span>
 
                         </Link>
-
-
-
+                        </Col>
+                        
+                        
+                        <Col>
 
 
                         <Button style={{ marginLeft: "40%", color: "red", backgroundColor: "white", borderColor: "white" }} onClick={async () => {
@@ -147,9 +166,15 @@ const PropertySubtypes = () => {
                           setUpdate(!update)
 
                         }}><i class="bi bi-trash" variant="success"></i></Button>
-                      </ListGroup.Item>)}
+
+</Col>
+                      </ListGroup.Item>
+                      
+                      </Row>
+                      )}
 
                   </ListGroup>
+
                 </FormGroup>
               </Form>
             </CardBody>

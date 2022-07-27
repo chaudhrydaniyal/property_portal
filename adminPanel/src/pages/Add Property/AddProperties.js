@@ -40,13 +40,13 @@ const AddProperties = () => {
     try {
       const res = await axios.get(`${originURL}/addproperty/purpose`);
       console.log("ressssssss", res)
-   
+
 
 
 
       setPurpose(res.data.getpurpose)
 
-    }catch (error) {
+    } catch (error) {
       console.log(error);
     }
 
@@ -102,13 +102,20 @@ const AddProperties = () => {
       <Row>
         <Col>
           <Card>
-            <CardTitle tag="h6" className="border-bottom p-3 mb-0"><div style={{ display: "flex", alignItems: "center" }}> <i className="bi bi-plus me-2" style={{ fontSize: "30px" }}> </i><span>Add Property</span></div></CardTitle>
+            <CardTitle tag="h6" className="border-bottom p-3 mb-0"><div style={{ display: "flex", alignItems: "center" }}> <span>Add Property Form</span></div></CardTitle>
             <CardBody>
               <CardTitle tag={"h6"} className=" text-white p-2 " style={{ backgroundColor: "#00a651" }}>PURPOSE</CardTitle>
               <Form>
                 <FormGroup>
 
-                  <label>Purpose</label>      <Button style={{ marginLeft: "auto" }} variant="success" onClick={handleShowPurpose}>Add More</Button>{' '}
+                  <div className='d-flex justify-content-between align-items-center ps-3 pe-3'>
+
+                    <label>The purpose of properties:</label>
+
+                    <Button style={{}} variant="success" onClick={handleShowPurpose}>Add More</Button>{' '}
+                  </div>
+                  <br />
+
 
                   <Modal style={{ marginTop: "30vh" }} show={showPurose} onHide={handleClosePurpose} animation={false}>
                     <Modal.Header closeButton>
@@ -121,15 +128,12 @@ const AddProperties = () => {
                       <Button variant="secondary" onClick={handleClosePurpose}>
                         Close
                       </Button>
-                      <Button variant="primary" onClick={() => {
+                      <Button variant="success" onClick={() => {
                         try {
                           axios.post(`${originURL}/addproperty/purpose`, {
                             purpose: puposeName
                           })
-
                           setUpdate(!update)
-
-
                           handleClosePurpose()
                         } catch (err) {
                           console.log(err)
@@ -142,9 +146,13 @@ const AddProperties = () => {
                   </Modal>
 
                   <ListGroup>
-                    {purpose.map((p) =>
-                      <ListGroup.Item>
-                        {p.purpose}<Button style={{ marginLeft: "40%", color: "red", backgroundColor: "white", borderColor: "white" }} onClick={async () => {
+                    {purpose.map((p, index) =>
+                      <ListGroup.Item className='d-flex justify-content-between align-items-center ps-5 pe-5'>
+
+
+                        {p.purpose}
+
+                        <Button style={{ marginLeft: "auto", color: "red", backgroundColor: "white", borderColor: "white" }} onClick={async () => {
                           await axios.delete(`${originURL}/addproperty/purpose/${p._id}`)
 
                           setUpdate(!update)
@@ -163,8 +171,10 @@ const AddProperties = () => {
               <Form>
                 <FormGroup>
 
-                  <label>Property Types</label>      <Button style={{ marginLeft: "auto" }} variant="success" onClick={handleShowPropertyType}>Add More</Button>{' '}
-
+                  <div className='d-flex justify-content-between align-items-center ps-3 pe-3'>
+                    <label>Property Types</label>      <Button variant="success" onClick={handleShowPropertyType}>Add More</Button>{' '}
+                  </div>
+                  <br />
                   <Modal style={{ marginTop: "30vh" }} show={showPropertyType} onHide={handleClosePropertyType} animation={false}>
                     <Modal.Header closeButton>
                       <Modal.Title>Add another Property Type</Modal.Title>
@@ -176,7 +186,7 @@ const AddProperties = () => {
                       <Button variant="secondary" onClick={handleClosePropertyType}>
                         Close
                       </Button>
-                      <Button variant="primary" onClick={() => {
+                      <Button variant="success" onClick={() => {
                         try {
                           axios.post(`${originURL}/addproperty/propertytype`, {
                             propertyType: propertyTypeName
@@ -191,34 +201,62 @@ const AddProperties = () => {
                         }
                       }}>
 
-                        Add Property Type 
+                        Add Property Type
                       </Button>
                     </Modal.Footer>
                   </Modal>
 
                   <ListGroup>
-                    {propertyType.map((p) =>
-                      <ListGroup.Item>
-                        {p.propertyType}
-                        <Link to="/propertysubtypes"
-                        state={{item:p}}
-                        >
+                    {propertyType.map((p, index) =>
 
-                        <span style={{marginLeft:"50px", textDecoration:"none", color:"black"}}>Subtypes</span>
-
-                        </Link>
-                        
-                        
-                      
+                      <Row>
 
 
-                        <Button style={{ marginLeft: "40%", color: "red", backgroundColor: "white", borderColor: "white" }} onClick={async () => {
-                          await axios.delete(`${originURL}/addproperty/propertytype/${p._id}`)
+                        <ListGroup.Item className='d-flex justify-content-between align-items-center ps-5 pe-5'>
 
-                          setUpdate(!update)
+                          <Col>
 
-                        }}><i class="bi bi-trash" variant="success"></i></Button>
-                      </ListGroup.Item>)}
+                            <span style={{ marginLeft: "20%" }}>
+                              {index + 1}.
+                            </span>
+                          </Col>
+
+                          <Col>
+                            {p.propertyType}
+                          </Col>
+
+                          <Col>
+
+                            <Link to="/propertysubtypes"
+                              state={{ item: p }}
+                              style={{ marginLeft: "50px", textDecoration: "none", color: "green", fontWeight: "700" }}
+                            >
+
+                              <span>Subtypes</span>
+
+                            </Link>
+
+                          </Col>
+
+
+                          <Col>
+
+
+
+
+                            <Button style={{ marginLeft: "40%", color: "red", backgroundColor: "white", borderColor: "white" }} onClick={async () => {
+                              await axios.delete(`${originURL}/addproperty/propertytype/${p._id}`)
+
+                              setUpdate(!update)
+
+                            }}><i class="bi bi-trash" variant="success"></i></Button>
+
+                          </Col>
+
+                        </ListGroup.Item>
+
+                      </Row>
+                    )}
 
                   </ListGroup>
                 </FormGroup>

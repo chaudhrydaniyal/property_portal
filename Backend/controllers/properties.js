@@ -119,6 +119,8 @@ function paginatedResults(model) {
     const page = parseInt(req.query.page);
     const limit = parseInt(req.query.limit);
 
+    const title = req.query.title
+
     console.log(property, page, limit);
 
     const startIndex = (page - 1) * limit;
@@ -142,14 +144,13 @@ function paginatedResults(model) {
     }
     try {
       if (property == "all_properties") {
-
-
+        
         results.results = await model
           .find()
           .limit(limit)
           .skip(startIndex)
           .exec();
-      } else {
+      } else if (title=="" || title==undefined) {
         results.results = await model
           .find({ Type: property })
           .limit(limit)
@@ -157,6 +158,19 @@ function paginatedResults(model) {
           .exec();
           console.log( results.results.length)
       }
+      else{
+        results.results = await model
+        .find({ Type: property, Title: {$regex:title,  $options: 'i'} })
+        .limit(limit)
+        .skip(startIndex)
+        .exec();
+        console.log( results.results.length)
+
+      }
+
+
+
+
 
     //   results.results = JSON.parse(JSON.stringify(results.results))
 

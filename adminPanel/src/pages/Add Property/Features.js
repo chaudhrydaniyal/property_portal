@@ -92,7 +92,11 @@ const Features = () => {
               <CardTitle tag={"h6"} className=" text-white p-2 " style={{ backgroundColor: "#00a651" }}>Features</CardTitle>
               <Form>
                 <FormGroup>
-                  <label>Features</label>      <Button style={{ marginLeft: "auto" }} variant="success" onClick={handleShow}>Add More</Button>{' '}
+                  <div className='d-flex justify-content-between align-items-center ps-3 pe-3'>
+                    <label>Features</label>      <Button style={{ marginLeft: "auto" }} variant="success" onClick={handleShow}>Add More</Button>{' '}
+                  </div>
+                  <br />
+
                   <Modal style={{ marginTop: "30vh" }} show={show} onHide={handleClose} animation={false}>
                     <Modal.Header closeButton>
                       <Modal.Title>Add Feature</Modal.Title>
@@ -140,18 +144,42 @@ const Features = () => {
                     </Modal.Footer>
                   </Modal>
                   <ListGroup>
-                    {propertySubtype && propertySubtype.map((p) =>
-                      <ListGroup.Item>
-                        {p.featurename}
+                    {propertySubtype && propertySubtype.map((p, index) =>
 
+                      <Row>
+                        <ListGroup.Item className='d-flex justify-content-between align-items-center ps-5 pe-5'>
 
-                        <Button style={{ marginLeft: "40%", color: "red", backgroundColor: "white", borderColor: "white" }} onClick={async () => {
-                          await axios.delete(`${originURL}/addproperty/feature/${p._id}`)
-                          setUpdate(!update)
-                        }}>
-                          <i class="bi bi-trash" variant="success"></i>
-                        </Button>
-                      </ListGroup.Item>)}
+                          <Col>
+                            <span style={{ marginLeft: "20%", marginRight: "0%" }}>
+                              {index + 1}.
+                            </span>
+                          </Col>
+                          <Col>
+
+                            <span>
+                              {p.featurename}
+                            </span>
+
+                          </Col>
+
+                          <Col>
+
+                            <span>
+                              {p.featuretype}
+                            </span>
+
+                          </Col>
+                          <Col>
+                            <Button style={{ marginLeft: "40%", color: "red", backgroundColor: "white", borderColor: "white" }} onClick={async () => {
+                              await axios.delete(`${originURL}/addproperty/feature/${p._id}`)
+                              setUpdate(!update)
+                            }}>
+                              <i class="bi bi-trash" variant="success"></i>
+                            </Button>
+                          </Col>
+                        </ListGroup.Item>
+                      </Row>
+                    )}
 
                   </ListGroup>
                 </FormGroup>

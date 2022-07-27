@@ -311,10 +311,16 @@ const AddProperty = () => {
                     </Form.Label>
 
                     <Form.Select
-                      onChange={async (e) => {
+                      onClick={async (e) => {
 
                         setPropertyType(e.target.value)
-                        const res2 = await axios.get(`${originURL}/addproperty/feature/62df70b823cc1d7ece9995ba`);
+
+                        const idOfSubtype = propertySubtypeData.filter((psd)=>psd.propertysubtype==e.target.value)[0]._id
+
+                        console.log(idOfSubtype)
+
+
+                        const res2 = await axios.get(`${originURL}/addproperty/feature/${idOfSubtype}`);
 
                         setPropertyFeatures(res2.data.get)
 

@@ -1,5 +1,5 @@
 import React from "react";
-import { Container, Row, Col, Card, Button } from "react-bootstrap";
+import { Container, Row, Col, Card, Button, Dropdown } from "react-bootstrap";
 import originURL from "../../url";
 
 import axios from "axios";
@@ -15,11 +15,15 @@ import { Link, useLocation } from "react-router-dom";
 const PropertyListing = (props) => {
   const location = useLocation();
 
-  console.log("location",location)
+  console.log("location", location)
   // Houses_Property
 
   const [data, setData] = useState([]);
   const [page, setPage] = useState(1);
+
+  
+
+
   var url = "";
   if (location.state) {
     url = `${originURL}/properties?propertyType=${location.state.propertyType}&page=${page}&limit=20`;
@@ -41,17 +45,44 @@ const PropertyListing = (props) => {
     console.log(data);
   }, [page]);
 
+
+  const [search, setSearch] = useState("");
+
+
   return (
     <>
-      <div className="header"></div>
+      <div className="header">
+        <div className='d-flex justify-content-center'>
+          <div style={{ marginTop: "15%", opacity: "0.9" }}>
+            <input style={{ width: "300px" }} onChange={(e) => setSearch(e.target.value)}></input>
+            <Button variant="success" className='ms-3' onClick={() => {
+              url = `${originURL}/properties?propertyType=${location.state ? location.state.propertyType : "all_properties"}&page=${page}&limit=20&title=${search}`
+              fetchDATA();
+            }
+            }>Search</Button>
+            <br />
+            <Dropdown>
+            <Dropdown.Toggle variant="success" id="dropdown-basic">
+        Property Type
+      </Dropdown.Toggle>
+
+      <Dropdown.Menu>
+        <Dropdown.Item href="#/action-1">Flat</Dropdown.Item>
+        <Dropdown.Item href="#/action-2">House</Dropdown.Item>
+        {/* <Dropdown.Item href="#/action-3">Something else</Dropdown.Item> */}
+      </Dropdown.Menu>
+            </Dropdown>
+          </div>
+        </div>
+      </div>
 
       <Container style={{ marginTop: "20px", marginBottom: "50px" }}>
         <Card className=" px-5" style={{ border: "none" }}>
           <div className="">
             {" "}
-            <p className="" style={{ fontSize: "20px", fontWeight: "bold" }}>
+            <p className="" style={{ fontSize: "30px", fontWeight: "700", color: "green" }}>
 
-              {location.state?location.state.propertyType:"Property Listing"}
+              {location.state ? location.state.propertyType : "Property Listing"}s
 
             </p>
           </div>
@@ -61,22 +92,23 @@ const PropertyListing = (props) => {
                 <>
                   <Col className="items" lg="3" key={item._id}>
                     <Card style={{ width: "18rem" }}>
-                    <Link
-                          to="propertyDetail"
-                          state={{
-                                item:item
-                          }}
-                          style={{textDecoration:"none",
-                          color:"#444"
-                          }}>
-                      <Card.Img
-                        variant="top"
-                        src={item.img}
-                        alt="propertypic"
-                        className="img"
-                      />
-                      <Card.Body>
-               
+                      <Link
+                        to="propertyDetail"
+                        state={{
+                          item: item
+                        }}
+                        style={{
+                          textDecoration: "none",
+                          color: "#444"
+                        }}>
+                        <Card.Img
+                          variant="top"
+                          src={item.img}
+                          alt="propertypic"
+                          className="img"
+                        />
+                        <Card.Body>
+
                           <Card.Title>
                             {" "}
                             <div>
@@ -96,28 +128,28 @@ const PropertyListing = (props) => {
                               )}
                             </div>
                           </Card.Title>
-                        <Card.Text>
-      
-                          <p style={{ fontSize: "15px", fontWeight: "bold" }}>
-                            {item.Title}
-                          </p>
+                          <Card.Text>
 
-                          <div
-                            style={{ display: "flex", justifyContent: "start" }}
-                          >
-                            <div>
-                              <i class="fa-solid fa-bath"></i>
-                              &nbsp;
-                              {item["Bath(s)"]}
+                            <p style={{ fontSize: "15px", fontWeight: "bold" }}>
+                              {item.Title}
+                            </p>
+
+                            <div
+                              style={{ display: "flex", justifyContent: "start" }}
+                            >
+                              <div>
+                                <i class="fa-solid fa-bath"></i>
+                                &nbsp;
+                                {item["Bath(s)"]}
+                              </div>
+                              <div className="px-2">
+                                <i class="fa-solid fa-bed"></i>
+                                &nbsp;
+                                {item["Bedroom(s)"]}
+                              </div>
                             </div>
-                            <div className="px-2">
-                              <i class="fa-solid fa-bed"></i>
-                              &nbsp;
-                              {item["Bedroom(s)"]}
-                            </div>
-                          </div>
-                        </Card.Text>
-                      </Card.Body>
+                          </Card.Text>
+                        </Card.Body>
                       </Link>
 
                     </Card>

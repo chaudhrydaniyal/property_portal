@@ -7,7 +7,7 @@ const propertySchema = new mongoose.Schema({
 
   },
 
-  title: {
+  Title: {
     type: String,
     required: true
   },
