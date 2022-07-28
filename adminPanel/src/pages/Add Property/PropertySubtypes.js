@@ -73,7 +73,7 @@ const PropertySubtypes = () => {
 
 
 
-  
+
 
   const [show, setShow] = useState(false);
 
@@ -92,9 +92,9 @@ const PropertySubtypes = () => {
               <Form>
                 <FormGroup>
 
-                  <div className='d-flex justify-content-between align-items-center ps-3 pe-3'> 
+                  <div className='d-flex justify-content-between align-items-center ps-3 pe-3'>
 
-                  <label>{propDetail.propertyType} Subtypes</label>      <Button style={{ marginLeft: "auto" }} variant="success" onClick={handleShow}>Add More</Button>{' '}
+                    <label>{propDetail.propertyType} Subtypes</label>      <Button style={{ marginLeft: "auto" }} variant="success" onClick={handleShow}>Add More</Button>{' '}
                   </div>
                   <br />
                   <Modal style={{ marginTop: "30vh" }} show={show} onHide={handleClose} animation={false}>
@@ -130,48 +130,48 @@ const PropertySubtypes = () => {
                   </Modal>
 
                   <ListGroup>
-                    {propertySubtype && propertySubtype.map((p,index) =>
+                    {propertySubtype && propertySubtype.map((p, index) =>
 
-                    <Row>
-                      <ListGroup.Item className='d-flex justify-content-between align-items-center ps-5 pe-5'>
+                      <Row>
+                        <ListGroup.Item className='d-flex justify-content-between align-items-center ps-5 pe-5'>
 
 
-<Col>
-                      <span style={{ marginLeft: "20%" }}>
+                          <Col>
+                            <span style={{ marginLeft: "20%" }}>
                               {index + 1}.
                             </span>
 
-                            </Col>
-                        <Col>
-                        {p.propertysubtype}
-                        </Col>
-                        <Col>
-                        <Link to="/features"
-                        state={{item:p}}
-                        style={{ marginLeft: "50px", textDecoration: "none", color: "green", fontWeight:"700" }}
-                        >
+                          </Col>
+                          <Col>
+                            {p.propertysubtype}
+                          </Col>
+                          <Col>
+                            <Link to="/features"
+                              state={{ item: p }}
+                              style={{ marginLeft: "50px", textDecoration: "none", color: "green", fontWeight: "700" }}
+                            >
 
-                          <span >Features</span>
+                              <span >Features</span>
 
-                        </Link>
-                        </Col>
-                        
-                        
-                        <Col>
+                            </Link>
+                          </Col>
 
 
-                        <Button style={{ marginLeft: "40%", color: "red", backgroundColor: "white", borderColor: "white" }} onClick={async () => {
-                          await axios.delete(`${originURL}/addproperty/propertysubtype/${p._id}`)
+                          <Col>
 
-                          setUpdate(!update)
 
-                        }}><i class="bi bi-trash" variant="success"></i></Button>
+                            <Button style={{ marginLeft: "40%", color: "red", backgroundColor: "white", borderColor: "white" }} onClick={async () => {
+                              await axios.delete(`${originURL}/addproperty/propertysubtype/${p._id}`)
 
-</Col>
-                      </ListGroup.Item>
-                      
+                              setUpdate(!update)
+
+                            }}><i class="bi bi-trash" variant="success"></i></Button>
+
+                          </Col>
+                        </ListGroup.Item>
+
                       </Row>
-                      )}
+                    )}
 
                   </ListGroup>
 

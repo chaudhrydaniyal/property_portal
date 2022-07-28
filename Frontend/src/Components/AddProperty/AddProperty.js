@@ -1,8 +1,9 @@
 import React from "react";
-import { Card, Form, Button, Container } from "react-bootstrap";
+import { Card, Form, Button, Container, Table, Row, Col } from "react-bootstrap";
 import { useState, useEffect } from "react";
 import { RMIUploader } from "react-multiple-image-uploader";
 import Modal from "react-bootstrap/Modal";
+import NotificationManager from "react-notifications/lib/NotificationManager";
 
 import axios from "axios";
 import "./add.css";
@@ -15,7 +16,7 @@ const AddProperty = () => {
 
   const [city, setCity] = useState("");
   const [purpose, setPurpose] = useState("");
-  const [area, setArea] = useState("");
+  const [areaInput, setAreaInput] = useState();
   const [bedrooms, setBedrooms] = useState("1");
   const [washrooms, setWashrooms] = useState("1");
   const [landArea, setLandArea] = useState("");
@@ -34,6 +35,166 @@ const AddProperty = () => {
   const [propertySubtypeData, setPropertySubtypeData] = useState([]);
 
   const [propertyFeatures, setPropertyFeatures] = useState([]);
+
+
+
+  // Area input 
+
+  const [areaUnit, setAreaUnit] = useState("squareMeters")
+
+  const [areaOfProperty , setAreaOfProperty] = useState({
+
+    squareFoot:0,
+    squareMeters:0,
+    squareYard:0,
+    Marla:0,
+    Kanal:0
+
+  })
+
+
+  const handleAreaChange = (e) =>{
+
+    var tempArea = areaOfProperty
+
+ 
+
+    tempArea[`${areaUnit}`] = parseFloat(e.target.value)
+
+
+
+    var areaInSquareMeter = 0;
+
+
+
+
+    switch (areaUnit) {
+      case "squareFoot":
+
+
+        areaInSquareMeter = tempArea[`${areaUnit}`]/10.764
+    
+
+        break;
+      case "squareYard":
+
+        areaInSquareMeter =tempArea[`${areaUnit}`]* 0.836126983
+
+
+      break;
+      case "Marla":
+
+
+        areaInSquareMeter =tempArea[`${areaUnit}`]* 25.29285263
+
+
+      break;
+      case "Kanal":
+
+        areaInSquareMeter =tempArea[`${areaUnit}`]* 505.8570526
+
+
+
+
+
+      break;
+      default:
+        areaInSquareMeter =tempArea[`${areaUnit}`]
+      
+      
+      }
+
+      tempArea.squareFoot = parseFloat((areaInSquareMeter * 10.76391042).toFixed(4))
+      tempArea.squareMeters = parseFloat((areaInSquareMeter).toFixed(4)) 
+      tempArea.squareYard = parseFloat((areaInSquareMeter * 1.19599).toFixed(4))
+      tempArea.Marla = parseFloat((areaInSquareMeter * 0.03954).toFixed(4))
+      tempArea.Kanal = parseFloat((areaInSquareMeter * 0.00197684).toFixed(4))
+
+      setAreaOfProperty(tempArea)
+
+  }
+
+
+
+
+
+
+
+
+
+  const handleUnitChange = (e) =>{
+
+    var tempArea = areaOfProperty
+
+   
+    let areaUnit = e.target.value
+
+    tempArea[`${areaUnit}`] = parseFloat(areaInput)
+
+
+
+    var areaInSquareMeter = 0;
+
+
+
+
+    switch (areaUnit) {
+      case "squareFoot":
+
+
+        areaInSquareMeter = tempArea[`${areaUnit}`]/10.764
+    
+
+        break;
+      case "squareYard":
+
+        areaInSquareMeter =tempArea[`${areaUnit}`]* 0.836126983
+
+
+      break;
+      case "Marla":
+
+
+        areaInSquareMeter =tempArea[`${areaUnit}`]* 25.29285263
+
+
+      break;
+      case "Kanal":
+
+        areaInSquareMeter =tempArea[`${areaUnit}`]* 505.8570526
+
+
+
+
+
+      break;
+      default:
+        areaInSquareMeter =tempArea[`${areaUnit}`]
+      
+      
+      }
+
+
+      tempArea.squareFoot = parseFloat((areaInSquareMeter * 10.76391042).toFixed(4))
+      tempArea.squareMeters = parseFloat((areaInSquareMeter).toFixed(4)) 
+      tempArea.squareYard = parseFloat((areaInSquareMeter * 1.19599).toFixed(4))
+      tempArea.Marla = parseFloat((areaInSquareMeter * 0.03954).toFixed(4))
+      tempArea.Kanal = parseFloat((areaInSquareMeter * 0.00197684).toFixed(4))
+
+
+
+
+
+      setAreaOfProperty(tempArea)
+
+
+
+
+  }
+
+
+
+
 
   useEffect(() => {
     async function fetchData() {
@@ -184,18 +345,29 @@ const AddProperty = () => {
                     formData.append("uploadedImages", imageFiles[i].file);
                   }
 
-                  formData.append("propertytitle", title);
-                  formData.append("price", parseFloat(price));
-                  formData.append("propertytype", propetyType);
+                  formData.append("Title", title);
+                  formData.append("Price", parseFloat(price));
+                  formData.append("Type", propetyType);
                   formData.append("city", city);
-                  formData.append("purpose", purpose);
-                  formData.append("rooms", bedrooms);
-                  formData.append("bath", washrooms);
-                  formData.append("area", landArea);
+                  formData.append("Purpose", purpose);
+                  formData.append("Bedroom(s)", bedrooms);
+                  formData.append("Bath(s)", washrooms);
+                  formData.append("Area", `${areaInput} ${areaUnit}`);
                   formData.append("kitchen", kitchen);
                   formData.append("storeroom", storeRooms);
-                  formData.append("location", location);
-                  formData.append("description", description);
+                  formData.append("DetailLocation", location);
+                  formData.append("Description", description);
+                  // formData.append("postedBy", new Date())
+
+                  for (const key in inputs) {
+
+                    console.log("inside inputs")
+
+                    formData.append(`${key}`, `${inputs[`${key}`]}`);
+
+
+                    console.log(`${key}: ${inputs[`${key}`]}`);
+                }
 
                   try {
                     const response = await axios({
@@ -206,8 +378,13 @@ const AddProperty = () => {
                     });
 
                     console.log("response", response);
+
+                    NotificationManager.success("Property Added Successfully");
+
                   } catch (error) {
                     console.log(error);
+                    NotificationManager.error('Something went Wrong, Please try again')
+
                   }
                 }}
               >
@@ -244,8 +421,8 @@ const AddProperty = () => {
                             Select The City
                           </option>
                           <option value="Islamabad">Islamabad</option>
-                          <option value="Islamabad">Lahore</option>
-                          <option value="Islamabad">Karachi</option>
+                          <option value="Lahore">Lahore</option>
+                          <option value="Karachi">Karachi</option>
 
                           <option value="" disabled>
                             Punjab Cities
@@ -532,12 +709,15 @@ const AddProperty = () => {
 
                           <div
                             onChange={async (e) => {
+
                               setPropertyType(e.target.value);
                               const res2 = await axios.get(
                                 `${originURL}/addproperty/propertysubtype/${e.target.value}`
                               );
 
                               setPropertySubtypeData(res2.data.detail);
+                              document.querySelector('.propertySubtype').value=""
+
                             }}
                           >
                             {propertyTypeData.map((p) => (
@@ -563,13 +743,19 @@ const AddProperty = () => {
                           </Form.Label>
 
                           <Form.Select
-                            onChange={async (e) => {
-                              setPropertyType(e.target.value);
-                              const res2 = await axios.get(
-                                `${originURL}/addproperty/feature/62df70b823cc1d7ece9995ba`
-                              );
 
-                              setPropertyFeatures(res2.data.get);
+                          className="propertySubtype"
+
+                            onClick={async (e) => {
+
+                              setPropertyType(e.target.value)
+
+                              const idOfSubtype = propertySubtypeData.filter((psd) => psd.propertysubtype == e.target.value)[0]._id
+
+                              const res2 = await axios.get(`${originURL}/addproperty/feature/${idOfSubtype}`);
+
+                              setPropertyFeatures(res2.data.get)
+
                             }}
                             required
                           >
@@ -592,8 +778,18 @@ const AddProperty = () => {
                   <div className="d-flex justify-content-center">
                     {/* add  feature start */}
                     <div>
+
+                      {document.querySelector('.propertySubtype') && document.querySelector('.propertySubtype').value!="" &&
                       <Button
-                        onClick={handleShow}
+                        onClick={()=>{
+                          if (document.querySelector('.propertySubtype').value!=""){
+                          handleShow()
+                          }
+
+                        }
+
+                        
+                        }
                         style={{
                           backgroundColor: "#198754",
                           color: "#fff",
@@ -601,7 +797,7 @@ const AddProperty = () => {
                         }}
                       >
                         Add Features
-                      </Button>
+                      </Button>}
                       <Modal
                         style={{ marginTop: "30vh" }}
                         show={show}
@@ -614,16 +810,18 @@ const AddProperty = () => {
                         </Modal.Header>
                         <Modal.Body>
                           <form>
-                            <div className="d-flex" onChange={handleChange}>
+                            <div  onChange={handleChange}>
+                              <Row >
                               {propertyFeatures.map((pf) => (
-                                <div style={{ width: "400px" }}>
+                                <Col className="mb-3 ps-5" sm={6}>
                                   <span>{pf.featurename} &nbsp;</span>
                                   <input
                                     type={`${pf.featuretype}`}
                                     name={`${pf.featurename}`}
                                   />
-                                </div>
+                                </Col>
                               ))}
+                              </Row>
 
                               {/* <span>Student Name: &nbsp;</span>
                         <input type="text" name="sname" />
@@ -685,20 +883,60 @@ const AddProperty = () => {
                       >
                         <div>
                           <Form.Label>Area:</Form.Label>
-                          <Form.Control type="number" required></Form.Control>
+                          <Form.Control type="number" onChange={async (e)=>{
+                            setAreaInput(e.target.value)
+                            handleAreaChange(e)}} required></Form.Control>
                         </div>
                         <br></br>
                         <div>
                           <Form.Label>Unit:</Form.Label>
-                          <Form.Select required>
-                            <option>Square Feet</option>
-                            <option>Square Meters</option>
-                            <option>Square Yard</option>
-                            <option>Marla</option>
-                            <option>Kanal</option>
+                          <Form.Select onChange={(e)=>{setAreaUnit(e.target.value)
+                          
+                          handleUnitChange(e)
+                          
+                          }} required>
+                            <option value="squareMeters">Square Meters</option>
+                            <option value="squareFoot">Square Foot</option>
+                            <option value="squareYard">Square Yard</option>
+                            <option value="Marla">Marla</option>
+                            <option value="Kanal">Kanal</option>
                           </Form.Select>
                         </div>
                       </div>
+                      <Table>
+                        <thead>
+                          <tr>
+                            <th>Area</th>
+                            <th>Unit</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+
+                          <tr>
+                            <td>{areaOfProperty.squareMeters}</td>
+                            <td>Square Meter</td>
+                          </tr>
+                          <tr>
+                            <td>{areaOfProperty.squareFoot}</td>
+                            <td>Square Foot</td>
+                          </tr>
+                          <tr>
+                            <td>{areaOfProperty.squareYard}</td>
+                            <td>Square Yard</td>
+                          </tr>
+
+                          <tr>
+                            <td>{areaOfProperty.Marla}</td>
+                            <td>Marla</td>
+                          </tr>
+                          <tr>
+                            <td>{areaOfProperty.Kanal}</td>
+                            <td>Kanal</td>
+                          </tr>
+                        
+                        </tbody>
+
+                      </Table>
                       <br></br>
                       <div>
                         <Form.Label>Occupancy Status:</Form.Label>
@@ -711,7 +949,7 @@ const AddProperty = () => {
                       <br></br>
                       <div>
                         <Form.Label>Total Price</Form.Label>
-                        <Form.Control type="number" required></Form.Control>
+                        <Form.Control type="number" onChange={(e)=>setPrice(e.target.value)} required></Form.Control>
                       </div>
                     </div>
                   </div>
@@ -749,100 +987,30 @@ const AddProperty = () => {
                     PROPERTY TITLE AND DESCRIPTION
                   </Card.Title>
                   <div className="mt-3 ff">
-                      {/* <div>
+                    {/* <div>
                         <Form.Label>Title</Form.Label>
                         <Form.Control type="text" required></Form.Control>
                       </div> */}
-                      <div>
-                        <Form.Label>Title</Form.Label>
-                        <Form.Control
-                      placeholder="Title"
-                      className="dd"
-                      onChange={(e) => setTitle(e.target.value)}
-                      required
-                    ></Form.Control>
-                      </div>
-                      <div>
-                        <Form.Label>Description</Form.Label>
-                        <Form.Control type="text" as="textarea" rows={3} required></Form.Control>
-                      </div>
+                    <div>
+                      <Form.Label>Title</Form.Label>
+                      <Form.Control
+                        placeholder="Title"
+                        className="dd"
+                        onChange={(e) => setTitle(e.target.value)}
+                        required
+                      ></Form.Control>
+                    </div>
+                    <div>
+                      <Form.Label>Description</Form.Label>
+                      <Form.Control type="text" as="textarea" onChange={(e)=>setDescription(e.target.value)} rows={3} required></Form.Control>
+                    </div>
                   </div>
                 </div>
 
-                {/* <div className="ff">
-                  <div>
-                    <Form.Label className="mt-3">Rooms</Form.Label>
-                    <Form.Select
-                      className="select"
-                      onChange={(e) => setBedrooms(e.target.value)}
-                      required
-                    >
-                      <option>1</option>
-                      <option>2</option>
-                      <option>3</option>
-                      <option>4</option>
-                      <option>5</option>
-                      <option>6+</option>
-                    </Form.Select>
-                  </div>
-                  <div>
-                    <Form.Label className="mt-3">baths</Form.Label>
-                    <Form.Select
-                      className="select"
-                      onChange={(e) => setWashrooms(e.target.value)}
-                      required
-                    >
-                      <option>1</option>
-                      <option>2</option>
-                      <option>3</option>
-                      <option>4+</option>
-                    </Form.Select>
-                  </div>
-                  <div>
-                    <Form.Label className="mt-3">Kitchen</Form.Label>
-                    <Form.Select
-                      className="select"
-                      onChange={(e) => setKitchen(e.target.value)}
-                      required
-                    >
-                      <option>1</option>
-                      <option>2</option>
-                      <option>3+</option>
-                    </Form.Select>
-                  </div>
-                  <div>
-                    <Form.Label className="mt-3">Store Rooms</Form.Label>
-                    <Form.Select
-                      className="select"
-                      onChange={(e) => setStoreRooms(e.target.value)}
-                      required
-                    >
-                      <option>1</option>
-                      <option>2</option>
-                      <option>3+</option>
-                    </Form.Select>
-                  </div>
-                </div>
-                <div className="res">
-                  <div>
-                    <Form.Label className="mt-3 dd">Location</Form.Label>
-                    <Form.Control
-                      placeholder="street address"
-                      onChange={(e) => setLocation(e.target.value)}
-                      required
-                    ></Form.Control>
-                    <Form.Label className="mt-3 dd">Description</Form.Label>
-                    <Form.Control
-                      as={"textarea"}
-                      rows={"4"}
-                      className="tex"
-                      onChange={(e) => setDescription(e.target.value)}
-                      required
-                    ></Form.Control>
-                  </div>
-                </div> */}
-   <br></br><br></br>
+
+                <br></br><br></br>
                 <RMIUploader
+                
                   isOpen={visible}
                   hideModal={hideModal}
                   onSelect={onSelect}

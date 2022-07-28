@@ -59,20 +59,23 @@ const postproperty = async (req, res, next) => {
       if (req.file == undefined) {
         try {
           const post = new Properties({
-            title: req.body.propertytitle,
-            price: req.body.price,
-            propertyType: req.body.propertytype,
-            city: req.body.city,
-            purpose: req.body.purpose,
-            location: req.body.location,
-            washrooms: req.body.bath,
-            landArea: req.body.area,
-            bedrooms: req.body.rooms,
-            kitchen: req.body.kitchen,
-            storeroom: req.body.storeroom,
-            description: req.body.description,
-            owner: req.body.owner,
-            images:imgArray
+            // Title: req.body.Title,
+            // Price: req.body.Price,
+            // Type: req.body.Type,
+            // city: req.body.city,
+            // Purpose: req.body.Purpose,
+            // DetailLocation: req.body.DetailLocation,
+            // "Bedroom(s)": req.body["Bedroom(s)"],
+            // Area: req.body.Area,
+            // 'Bath(s)': req.body['Bath(s)'],
+            // kitchen: req.body.kitchen,
+            // storeroom: req.body.storeroom,
+            // Description: req.body.Description,
+            // postedBy: req.body.postedBy,
+            propertyImages:imgArray,
+
+            ...req.body
+            
           });
           console.log(req.body);
           await post.save();

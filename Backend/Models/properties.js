@@ -2,67 +2,55 @@ const mongoose = require('mongoose')
 const AutoIncrement = require("mongoose-sequence")(mongoose)
 const propertySchema = new mongoose.Schema({
   propertyno: Number,
-  images: {
+  propertyImages: {
     type: Array,
 
   },
 
   Title: {
     type: String,
-    required: true
   },
-  price: {
+  Price: {
     type: String,
-    required: true
   },
   Type: {
     type: String,
-    required: true
   },
   city: {
     type: String
   },
-  purpose: {
+  Purpose: {
     type: String,
-    enum: ['sale', 'rent'],
-    required: true
   },
-  location: {
+  DetailLocation: {
     type: String,
-    required: true
   },
 
-  washrooms: {
+  "Bedroom(s)": {
     type: String,
-    required: true
   },
-  landArea: {
+  Area: {
     type: String,
-    required: true
   },
-  bedrooms: {
+  "Bedroom(s)": {
     type: String,
-    required: true
   },
   kitchen: {
     type: String,
-    required: true
   },
   storeroom: {
     type: String,
-    required: true
   },
 
-  description: {
+  Description: {
     type: String,
-    required: true
   },
-   owner:{
+  postedBy:{
       type:mongoose.Schema.Types.ObjectId,
       ref:'Users'
    }
 
-})
+}, { strict: false })
 
 propertySchema.plugin(AutoIncrement, { inc_field: 'propertyno' });
 const properties = mongoose.model('Properties', propertySchema);

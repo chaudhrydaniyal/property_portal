@@ -245,7 +245,7 @@ const SingleProperty = () => {
                   <div style={{ width: "50%" }}>
                     <div style={{ display: "flex" }}>
                       <div style={{ width: "40%" }}>Added</div>
-                      <div style={{ width: "60%" }}>2 Hours Ago</div>
+                      <div style={{ width: "60%" }}>{propDetail.Added ? propDetail.Added :"N/A"}</div>
                     </div>
                   </div>
                 </Card.Body>

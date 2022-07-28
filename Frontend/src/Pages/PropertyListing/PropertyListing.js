@@ -21,7 +21,7 @@ const PropertyListing = (props) => {
   const [data, setData] = useState([]);
   const [page, setPage] = useState(1);
 
-  
+
 
 
   var url = "";
@@ -62,15 +62,15 @@ const PropertyListing = (props) => {
             }>Search</Button>
             <br />
             <Dropdown>
-            <Dropdown.Toggle variant="success" id="dropdown-basic">
-        Property Type
-      </Dropdown.Toggle>
+              <Dropdown.Toggle variant="success" id="dropdown-basic">
+                Property Type
+              </Dropdown.Toggle>
 
-      <Dropdown.Menu>
-        <Dropdown.Item href="#/action-1">Flat</Dropdown.Item>
-        <Dropdown.Item href="#/action-2">House</Dropdown.Item>
-        {/* <Dropdown.Item href="#/action-3">Something else</Dropdown.Item> */}
-      </Dropdown.Menu>
+              <Dropdown.Menu>
+                <Dropdown.Item href="#/action-1">Flat</Dropdown.Item>
+                <Dropdown.Item href="#/action-2">House</Dropdown.Item>
+                {/* <Dropdown.Item href="#/action-3">Something else</Dropdown.Item> */}
+              </Dropdown.Menu>
             </Dropdown>
           </div>
         </div>
