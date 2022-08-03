@@ -21,20 +21,35 @@ const PropertyListing = (props) => {
   const [data, setData] = useState([]);
   const [page, setPage] = useState(1);
 
+  const [count, setCount] = useState(0)
+  const [search, setSearch] = useState("");
+
+  console.log("count",count)
+
 
 
 
   var url = "";
   if (location.state) {
-    url = `${originURL}/properties?propertyType=${location.state.propertyType}&page=${page}&limit=20`;
+
+    if (location.state.hasOwnProperty('purpose')){
+      console.log("called")
+
+      url = `${originURL}/properties?propertyType=all_properties&purpose=${location.state.purpose}&page=${page}&limit=20&title=${search}`;
+
+    }
+    else{
+    
+    url = `${originURL}/properties?propertyType=${location.state.propertyType}&page=${page}&limit=20&title=${search}`;}
   } else {
-    url = `${originURL}/properties?propertyType=all_properties&page=${page}&limit=20`;
+    url = `${originURL}/properties?propertyType=all_properties&page=${page}&limit=20&title=${search}`;
   }
   const fetchDATA = async () => {
     try {
       const res = await axios.get(url);
-      const properties = res.data;
+      const properties = res.data.results;
       setData(properties);
+      setCount(res.data.count)
     } catch (error) {
       console.log(error);
     }
@@ -43,10 +58,9 @@ const PropertyListing = (props) => {
   useEffect(() => {
     fetchDATA();
     console.log(data);
-  }, [page]);
+  }, [page,location.state]);
 
 
-  const [search, setSearch] = useState("");
 
 
   return (
@@ -54,14 +68,14 @@ const PropertyListing = (props) => {
       <div className="header">
         <div className='d-flex justify-content-center'>
           <div style={{ marginTop: "15%", opacity: "0.9" }}>
-            <input style={{ width: "300px" }} onChange={(e) => setSearch(e.target.value)}></input>
-            <Button variant="success" className='ms-3' onClick={() => {
+            <input style={{ width: "300px", height:"38px", borderRadius:"5px", borderColor:"white" }} onChange={(e) => setSearch(e.target.value)}></input>
+            <Button variant="success" className='ms-2' onClick={() => {
               url = `${originURL}/properties?propertyType=${location.state ? location.state.propertyType : "all_properties"}&page=${page}&limit=20&title=${search}`
               fetchDATA();
             }
             }>Search</Button>
             <br />
-            <Dropdown>
+            {/* <Dropdown>
               <Dropdown.Toggle variant="success" id="dropdown-basic">
                 Property Type
               </Dropdown.Toggle>
@@ -69,9 +83,9 @@ const PropertyListing = (props) => {
               <Dropdown.Menu>
                 <Dropdown.Item href="#/action-1">Flat</Dropdown.Item>
                 <Dropdown.Item href="#/action-2">House</Dropdown.Item>
-                {/* <Dropdown.Item href="#/action-3">Something else</Dropdown.Item> */}
+                <Dropdown.Item href="#/action-3">Something else</Dropdown.Item>
               </Dropdown.Menu>
-            </Dropdown>
+            </Dropdown> */}
           </div>
         </div>
       </div>
@@ -82,7 +96,9 @@ const PropertyListing = (props) => {
             {" "}
             <p className="" style={{ fontSize: "30px", fontWeight: "700", color: "green" }}>
 
-              {location.state ? location.state.propertyType : "Property Listing"}s
+              {location.state ? 
+              location.state.purpose? location.state.purpose:
+              location.state.propertyType : "Property Listing"}s
 
             </p>
           </div>
@@ -170,7 +186,7 @@ const PropertyListing = (props) => {
       >
         <Stack spacing={2}>
           <Pagination
-            count={location.state ? 200 : 400}
+            count={parseInt(count / 20)}
             size="large"
             onChange={(e, p) => {
               console.log("eeeeeeeee", p);

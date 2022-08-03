@@ -46,8 +46,7 @@ const propertySchema = new mongoose.Schema({
     type: String,
   },
   postedBy:{
-      type:mongoose.Schema.Types.ObjectId,
-      ref:'Users'
+      type:String,
    }
 
 }, { strict: false })

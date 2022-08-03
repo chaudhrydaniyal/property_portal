@@ -118,6 +118,9 @@ const getProperty = async (req, res) => {
 
 function paginatedResults(model) {
   return async (req, res, next) => {
+
+    console.log("purpose",req.query)
+
     const property = req.query.propertyType;
     const page = parseInt(req.query.page);
     const limit = parseInt(req.query.limit);
@@ -147,13 +150,64 @@ function paginatedResults(model) {
     }
     try {
       if (property == "all_properties") {
+
+
+
+
+        if (title !="" ){
+
+     
+
+
+
+
+          results.count = await model.find( {Title: {$regex:title,  $options: 'i'}}).count()
+        
+          results.results = await model
+            .find({Title: {$regex:title,  $options: 'i'}})
+            .limit(limit)
+            .skip(startIndex)
+            .exec();
+
+
+
+        }
+
+        else{
+
+         
+
+          if  (req.query.purpose){
+
+            results.count = await model.find({Purpose:req.query.purpose}).count()
+        
+            results.results = await model
+              .find({Purpose:req.query.purpose})
+              .limit(limit)
+              .skip(startIndex)
+              .exec();
+
+          }
+
+          else{
+
+
+
+        results.count = await model.find().count()
         
         results.results = await model
           .find()
           .limit(limit)
           .skip(startIndex)
           .exec();
-      } else if (title=="" || title==undefined) {
+      
+        }}
+      
+      
+        } else if (title=="" || title==undefined) {
+
+        results.count = await model.find({ Type: property }).count()
+
         results.results = await model
           .find({ Type: property })
           .limit(limit)
@@ -162,6 +216,10 @@ function paginatedResults(model) {
           console.log( results.results.length)
       }
       else{
+
+        results.count = await model.find({ Type: property, Title: {$regex:title,  $options: 'i'} }).count()
+
+
         results.results = await model
         .find({ Type: property, Title: {$regex:title,  $options: 'i'} })
         .limit(limit)
@@ -183,9 +241,12 @@ function paginatedResults(model) {
 
     console.log("filter", results.results.length)
 
+
+    const finalResult = {results:results.results, count: results.count}
+
       
     
-      res.paginatedResults = results.results;
+      res.paginatedResults = finalResult;
 
       next();
     } catch (e) {

@@ -10,12 +10,14 @@ router.post('/addproperty/feature', async (req, res, next) => {
         const addfeature = new Pfeatures({
             featurename: req.body.featurename,
             featuretype: req.body.featuretype,
-            addedIn: req.body.addedIn
+            addedIn: req.body.addedIn,
+
         })
         const save = await addfeature.save();
         save && res.status(200).json({ messgae: "successfully added", save })
     }
     catch (error) {
+        console.log("error",error)
         next(error)
     }
 

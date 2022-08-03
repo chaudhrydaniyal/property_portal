@@ -5,10 +5,39 @@ import { RMIUploader } from "react-multiple-image-uploader";
 import Modal from "react-bootstrap/Modal";
 import NotificationManager from "react-notifications/lib/NotificationManager";
 
+import CurrencyInput from "react-currency-input-field";
+
+
 import axios from "axios";
 import "./add.css";
 import originURL from "../../url";
 const AddProperty = () => {
+
+
+
+
+
+  const prefix = "PKR ";
+  const [value, setValue] = useState(0);
+
+  const handleChangePrice = (e) => {
+    e.preventDefault();
+    const { value = "" } = e.target;
+    const parsedValue = value.replace(/[^\d.]/gi, "");
+    setValue(parsedValue);
+  };
+
+  const handleOnBlur = () => setValue(Number(value).toFixed(2));
+
+
+
+
+
+
+
+
+
+
   const [title, setTitle] = useState("");
   const [price, setPrice] = useState("");
 
@@ -42,22 +71,22 @@ const AddProperty = () => {
 
   const [areaUnit, setAreaUnit] = useState("squareMeters")
 
-  const [areaOfProperty , setAreaOfProperty] = useState({
+  const [areaOfProperty, setAreaOfProperty] = useState({
 
-    squareFoot:0,
-    squareMeters:0,
-    squareYard:0,
-    Marla:0,
-    Kanal:0
+    squareFoot: 0,
+    squareMeters: 0,
+    squareYard: 0,
+    Marla: 0,
+    Kanal: 0
 
   })
 
 
-  const handleAreaChange = (e) =>{
+  const handleAreaChange = (e) => {
 
     var tempArea = areaOfProperty
 
- 
+
 
     tempArea[`${areaUnit}`] = parseFloat(e.target.value)
 
@@ -72,45 +101,45 @@ const AddProperty = () => {
       case "squareFoot":
 
 
-        areaInSquareMeter = tempArea[`${areaUnit}`]/10.764
-    
+        areaInSquareMeter = tempArea[`${areaUnit}`] / 10.764
+
 
         break;
       case "squareYard":
 
-        areaInSquareMeter =tempArea[`${areaUnit}`]* 0.836126983
+        areaInSquareMeter = tempArea[`${areaUnit}`] * 0.836126983
 
 
-      break;
+        break;
       case "Marla":
 
 
-        areaInSquareMeter =tempArea[`${areaUnit}`]* 25.29285263
+        areaInSquareMeter = tempArea[`${areaUnit}`] * 25.29285263
 
 
-      break;
+        break;
       case "Kanal":
 
-        areaInSquareMeter =tempArea[`${areaUnit}`]* 505.8570526
+        areaInSquareMeter = tempArea[`${areaUnit}`] * 505.8570526
 
 
 
 
 
-      break;
+        break;
       default:
-        areaInSquareMeter =tempArea[`${areaUnit}`]
-      
-      
-      }
+        areaInSquareMeter = tempArea[`${areaUnit}`]
 
-      tempArea.squareFoot = parseFloat((areaInSquareMeter * 10.76391042).toFixed(4))
-      tempArea.squareMeters = parseFloat((areaInSquareMeter).toFixed(4)) 
-      tempArea.squareYard = parseFloat((areaInSquareMeter * 1.19599).toFixed(4))
-      tempArea.Marla = parseFloat((areaInSquareMeter * 0.03954).toFixed(4))
-      tempArea.Kanal = parseFloat((areaInSquareMeter * 0.00197684).toFixed(4))
 
-      setAreaOfProperty(tempArea)
+    }
+
+    tempArea.squareFoot = parseFloat((areaInSquareMeter * 10.76391042).toFixed(4))
+    tempArea.squareMeters = parseFloat((areaInSquareMeter).toFixed(4))
+    tempArea.squareYard = parseFloat((areaInSquareMeter * 1.19599).toFixed(4))
+    tempArea.Marla = parseFloat((areaInSquareMeter * 0.03954).toFixed(4))
+    tempArea.Kanal = parseFloat((areaInSquareMeter * 0.00197684).toFixed(4))
+
+    setAreaOfProperty(tempArea)
 
   }
 
@@ -122,11 +151,11 @@ const AddProperty = () => {
 
 
 
-  const handleUnitChange = (e) =>{
+  const handleUnitChange = (e) => {
 
     var tempArea = areaOfProperty
 
-   
+
     let areaUnit = e.target.value
 
     tempArea[`${areaUnit}`] = parseFloat(areaInput)
@@ -142,50 +171,50 @@ const AddProperty = () => {
       case "squareFoot":
 
 
-        areaInSquareMeter = tempArea[`${areaUnit}`]/10.764
-    
+        areaInSquareMeter = tempArea[`${areaUnit}`] / 10.764
+
 
         break;
       case "squareYard":
 
-        areaInSquareMeter =tempArea[`${areaUnit}`]* 0.836126983
+        areaInSquareMeter = tempArea[`${areaUnit}`] * 0.836126983
 
 
-      break;
+        break;
       case "Marla":
 
 
-        areaInSquareMeter =tempArea[`${areaUnit}`]* 25.29285263
+        areaInSquareMeter = tempArea[`${areaUnit}`] * 25.29285263
 
 
-      break;
+        break;
       case "Kanal":
 
-        areaInSquareMeter =tempArea[`${areaUnit}`]* 505.8570526
+        areaInSquareMeter = tempArea[`${areaUnit}`] * 505.8570526
 
 
 
 
 
-      break;
+        break;
       default:
-        areaInSquareMeter =tempArea[`${areaUnit}`]
-      
-      
-      }
+        areaInSquareMeter = tempArea[`${areaUnit}`]
 
 
-      tempArea.squareFoot = parseFloat((areaInSquareMeter * 10.76391042).toFixed(4))
-      tempArea.squareMeters = parseFloat((areaInSquareMeter).toFixed(4)) 
-      tempArea.squareYard = parseFloat((areaInSquareMeter * 1.19599).toFixed(4))
-      tempArea.Marla = parseFloat((areaInSquareMeter * 0.03954).toFixed(4))
-      tempArea.Kanal = parseFloat((areaInSquareMeter * 0.00197684).toFixed(4))
+    }
+
+
+    tempArea.squareFoot = parseFloat((areaInSquareMeter * 10.76391042).toFixed(4))
+    tempArea.squareMeters = parseFloat((areaInSquareMeter).toFixed(4))
+    tempArea.squareYard = parseFloat((areaInSquareMeter * 1.19599).toFixed(4))
+    tempArea.Marla = parseFloat((areaInSquareMeter * 0.03954).toFixed(4))
+    tempArea.Kanal = parseFloat((areaInSquareMeter * 0.00197684).toFixed(4))
 
 
 
 
 
-      setAreaOfProperty(tempArea)
+    setAreaOfProperty(tempArea)
 
 
 
@@ -337,7 +366,20 @@ const AddProperty = () => {
               <Form
                 noValidate
                 onSubmit={async (e) => {
+
                   e.preventDefault();
+
+
+                  if (localStorage.getItem("loggedIn")=="false")
+                  {
+                    NotificationManager.error("Please Login first to Add property");
+
+
+                                      
+                    return
+                  }
+
+                 
 
                   const formData = new FormData();
 
@@ -346,16 +388,14 @@ const AddProperty = () => {
                   }
 
                   formData.append("Title", title);
-                  formData.append("Price", parseFloat(price));
+                  formData.append("Price", value);
                   formData.append("Type", propetyType);
                   formData.append("city", city);
                   formData.append("Purpose", purpose);
-                  formData.append("Bedroom(s)", bedrooms);
-                  formData.append("Bath(s)", washrooms);
+           
                   formData.append("Area", `${areaInput} ${areaUnit}`);
-                  formData.append("kitchen", kitchen);
                   formData.append("storeroom", storeRooms);
-                  formData.append("DetailLocation", location);
+                  formData.append("DetailLocation", location);   
                   formData.append("Description", description);
                   // formData.append("postedBy", new Date())
 
@@ -366,8 +406,9 @@ const AddProperty = () => {
                     formData.append(`${key}`, `${inputs[`${key}`]}`);
 
 
+
                     console.log(`${key}: ${inputs[`${key}`]}`);
-                }
+                  }
 
                   try {
                     const response = await axios({
@@ -716,7 +757,9 @@ const AddProperty = () => {
                               );
 
                               setPropertySubtypeData(res2.data.detail);
-                              document.querySelector('.propertySubtype').value=""
+                              document.querySelector('.propertySubtype').value = ""
+
+                              setInputs({})
 
                             }}
                           >
@@ -744,7 +787,7 @@ const AddProperty = () => {
 
                           <Form.Select
 
-                          className="propertySubtype"
+                            className="propertySubtype"
 
                             onClick={async (e) => {
 
@@ -755,6 +798,8 @@ const AddProperty = () => {
                               const res2 = await axios.get(`${originURL}/addproperty/feature/${idOfSubtype}`);
 
                               setPropertyFeatures(res2.data.get)
+
+                              setInputs({})
 
                             }}
                             required
@@ -779,25 +824,25 @@ const AddProperty = () => {
                     {/* add  feature start */}
                     <div>
 
-                      {document.querySelector('.propertySubtype') && document.querySelector('.propertySubtype').value!="" &&
-                      <Button
-                        onClick={()=>{
-                          if (document.querySelector('.propertySubtype').value!=""){
-                          handleShow()
+                      {document.querySelector('.propertySubtype') && document.querySelector('.propertySubtype').value != "" &&
+                        <Button
+                          onClick={() => {
+                            if (document.querySelector('.propertySubtype').value != "") {
+                              handleShow()
+                            }
+
                           }
 
-                        }
 
-                        
-                        }
-                        style={{
-                          backgroundColor: "#198754",
-                          color: "#fff",
-                          border: "none",
-                        }}
-                      >
-                        Add Features
-                      </Button>}
+                          }
+                          style={{
+                            backgroundColor: "#198754",
+                            color: "#fff",
+                            border: "none",
+                          }}
+                        >
+                          Add Features
+                        </Button>}
                       <Modal
                         style={{ marginTop: "30vh" }}
                         show={show}
@@ -810,17 +855,23 @@ const AddProperty = () => {
                         </Modal.Header>
                         <Modal.Body>
                           <form>
-                            <div  onChange={handleChange}>
+                            <div onChange={handleChange}>
                               <Row >
-                              {propertyFeatures.map((pf) => (
-                                <Col className="mb-3 ps-5" sm={6}>
-                                  <span>{pf.featurename} &nbsp;</span>
-                                  <input
-                                    type={`${pf.featuretype}`}
-                                    name={`${pf.featurename}`}
-                                  />
-                                </Col>
-                              ))}
+                                {propertyFeatures.map((pf) => (
+                                  <Col className="mb-3 ps-5" sm={6}>
+                                    <div className="d-flex">
+                                    <span className="mt-1">{pf.featurename} &nbsp;</span>
+                                    &nbsp;
+                                    <input
+                                      style={{color:"black"}}
+                                      type={`${pf.featuretype}`}
+                                      name={`${pf.featurename}`}
+                                      value = {inputs[`${pf.featurename}`]}
+                                      checked = {inputs[`${pf.featurename}`]}
+                                    />
+                                    </div>
+                                  </Col>
+                                ))}
                               </Row>
 
                               {/* <span>Student Name: &nbsp;</span>
@@ -883,17 +934,19 @@ const AddProperty = () => {
                       >
                         <div>
                           <Form.Label>Area:</Form.Label>
-                          <Form.Control type="number" onChange={async (e)=>{
+                          <Form.Control type="number" onChange={async (e) => {
                             setAreaInput(e.target.value)
-                            handleAreaChange(e)}} required></Form.Control>
+                            handleAreaChange(e)
+                          }} required></Form.Control>
                         </div>
                         <br></br>
                         <div>
                           <Form.Label>Unit:</Form.Label>
-                          <Form.Select onChange={(e)=>{setAreaUnit(e.target.value)
-                          
-                          handleUnitChange(e)
-                          
+                          <Form.Select onChange={(e) => {
+                            setAreaUnit(e.target.value)
+
+                            handleUnitChange(e)
+
                           }} required>
                             <option value="squareMeters">Square Meters</option>
                             <option value="squareFoot">Square Foot</option>
@@ -933,7 +986,7 @@ const AddProperty = () => {
                             <td>{areaOfProperty.Kanal}</td>
                             <td>Kanal</td>
                           </tr>
-                        
+
                         </tbody>
 
                       </Table>
@@ -949,7 +1002,23 @@ const AddProperty = () => {
                       <br></br>
                       <div>
                         <Form.Label>Total Price</Form.Label>
-                        <Form.Control type="number" onChange={(e)=>setPrice(e.target.value)} required></Form.Control>
+                        <CurrencyInput
+                          style={{ color: "black" }}
+                          prefix={prefix}
+                          name="currencyInput"
+                          id="currencyInput"
+                          data-number-to-fixed="2"
+                          data-number-stepfactor="100"
+                          value={value}
+                          placeholder=""
+                          onChange={handleChangePrice}
+                          onBlur={handleOnBlur}
+                          allowDecimals
+                          decimalsLimit="2"
+                          intlConfig={{ locale: 'en-IN', currency: 'INR' }}
+
+                          disableAbbreviations
+                        />
                       </div>
                     </div>
                   </div>
@@ -1002,7 +1071,7 @@ const AddProperty = () => {
                     </div>
                     <div>
                       <Form.Label>Description</Form.Label>
-                      <Form.Control type="text" as="textarea" onChange={(e)=>setDescription(e.target.value)} rows={3} required></Form.Control>
+                      <Form.Control type="text" as="textarea" onChange={(e) => setDescription(e.target.value)} rows={3} required></Form.Control>
                     </div>
                   </div>
                 </div>
@@ -1010,7 +1079,7 @@ const AddProperty = () => {
 
                 <br></br><br></br>
                 <RMIUploader
-                
+
                   isOpen={visible}
                   hideModal={hideModal}
                   onSelect={onSelect}

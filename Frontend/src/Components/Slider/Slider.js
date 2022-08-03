@@ -23,10 +23,10 @@ function Sliders() {
   const fetchDATA = async () => {
     try {
       const resAppartments = await axios.get(urlAppartments);
-      setAppartments(resAppartments.data);
+      setAppartments(resAppartments.data.results);
 
       const resHouses = await axios.get(urlHouses);
-      setHouses(resHouses.data);
+      setHouses(resHouses.data.results);
 
       console.log("houses", resHouses);
     } catch (error) {

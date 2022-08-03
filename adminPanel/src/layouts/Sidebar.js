@@ -9,45 +9,46 @@ const navigation = [
     icon: "bi bi-speedometer2",
   },
   {
-    title: "Properties",
-    href: "/properties",
-    icon: "bi bi-house-door",
+    title: "Add Property",
+    href: "/addproperty",
+    icon: "bi bi-plus",
   },
+  // {
+  //   title: "Properties",
+  //   href: "/properties",
+  //   icon: "bi bi-house-door",
+  // },
   {
     title: "Users",
     href: "/badges",
     icon: "bi bi-people",
   },
-  {
-    title: "Rental",
-    href: "/buttons",
-    icon: "bi bi-house-door",
-  },
-  {
-    title: "Selling",
-    href: "/cards",
-    icon: "bi bi-house-door",
-  },
-  {
-    title: "Add Property",
-    href: "/addproperty",
-    icon: "bi bi-plus",
-  },
-  {
-    title: "Table",
-    href: "/table",
-    icon: "bi bi-layout-split",
-  },
-  {
-    title: "Forms",
-    href: "/forms",
-    icon: "bi bi-textarea-resize",
-  },
-  {
-    title: "Breadcrumbs",
-    href: "/breadcrumbs",
-    icon: "bi bi-link",
-  },
+  // {
+  //   title: "Rental",
+  //   href: "/buttons",
+  //   icon: "bi bi-house-door",
+  // },
+  // {
+  //   title: "Selling",
+  //   href: "/cards",
+  //   icon: "bi bi-house-door",
+  // },
+
+  // {
+  //   title: "Table",
+  //   href: "/table",
+  //   icon: "bi bi-layout-split",
+  // },
+  // {
+  //   title: "Forms",
+  //   href: "/forms",
+  //   icon: "bi bi-textarea-resize",
+  // },
+  // {
+  //   title: "Breadcrumbs",
+  //   href: "/breadcrumbs",
+  //   icon: "bi bi-link",
+  // },
   {
     title: "About",
     href: "/about",

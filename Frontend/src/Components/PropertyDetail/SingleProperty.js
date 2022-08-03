@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Container, Card, Row, Col, Button } from "react-bootstrap";
 import img from "./item1.jpg";
 import "./single.css";
@@ -9,12 +9,53 @@ import { images } from "./index";
 import img1 from "../../Assets/2.webp";
 import styled from "styled-components";
 import icon from '../../Assets/tick.png'
+
+
+import Map from 'react-map-gl';
+import { Marker } from "react-map-gl";
+import 'mapbox-gl/dist/mapbox-gl.css';
+
+
+var axios = require('axios');
+
+const MAPBOX_TOKEN = 'pk.eyJ1IjoiZGFuaXlhbGtoYWxpZCIsImEiOiJjbDZicGl2NHcwMjJnM2NxYjRoMzFsMmNjIn0._b-McTeRzbPoh-HVaPJwUQ'; // Set your mapbox token here
+
+
+
 const SingleProperty = () => {
   const item = useLocation();
 
   console.log("testvalue", item);
 
   const propDetail = item.state.item;
+
+  const [coordinates, setCoordinates] = useState([])
+
+
+  useEffect(() => {
+    
+    
+  var config = {
+    method: 'get',
+    url: `https://api.geoapify.com/v1/geocode/search?text=${encodeURIComponent(propDetail.DetailLocation)}&apiKey=7629540bd57b4f15a58ef6e06dcef7c7`,
+    headers: {}
+  };
+
+  axios(config)
+    .then(function (response) {
+      if (!coordinates[0]){
+      setCoordinates(response.data.features[0].geometry.coordinates)}
+      console.log(response.data.features[0].geometry.coordinates);
+    })
+    .catch(function (error) {
+      console.log(error);
+    });
+
+  }, [coordinates]);
+
+
+  
+
 
   return (
     <div style={{}}>
@@ -213,7 +254,7 @@ const SingleProperty = () => {
                   <div style={{ width: "50%" }}>
                     <div style={{ display: "flex" }}>
                       <div style={{ width: "40%" }}>Purpose</div>
-                      <div style={{ width: "60%" }}>{propDetail.Type}</div>
+                      <div style={{ width: "60%" }}>{propDetail.Purpose}</div>
                     </div>
                   </div>
                   <br></br>
@@ -476,10 +517,26 @@ const SingleProperty = () => {
                     </Card.Body> : ""
                     
                   }
+
+
                 </Card>
               </Col>
             </Row>
           </div>
+
+          {console.log("coordinates", coordinates)}
+
+        {coordinates[0] &&  <Map
+      initialViewState={{
+        longitude: coordinates[0],
+        latitude: coordinates[1],
+        zoom: 14
+      }}
+      style={{width: 600, height: 400, marginLeft:"7%",  marginBottom:"10%"}}
+      mapStyle="mapbox://styles/mapbox/streets-v9"
+      mapboxAccessToken={MAPBOX_TOKEN}
+
+    ><Marker longitude={coordinates[0]} latitude={coordinates[1]} color="red" /></Map>}
         </Container>
       </div>
     </div>

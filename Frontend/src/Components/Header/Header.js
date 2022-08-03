@@ -41,14 +41,14 @@ const Header = () => {
           <Navbar.Collapse id="basic-navbar-nav">
             <Nav className="me-auto text-white">
               <Nav.Link>
-                <a href="/" className="item">
+                <Link to={"/propertylisting"} state={{purpose:"For Rent"}} className="item">
                   Rent
-                </a>
+                </Link>
               </Nav.Link>
               <Nav.Link>
-                <a href="/" className="item">
+                <Link to={"/propertylisting"} state={{purpose:"For Sale"}} className="item">
                   Buy
-                </a>
+                </Link>
               </Nav.Link>
               <Nav.Link>
                 <a href="/" className="item">
@@ -78,7 +78,11 @@ const Header = () => {
                       <Avatar src={avatar} /> :
                       <Avatar src={userAvatar} />}
                     &nbsp;
-                    <Nav.Link className="item" onClick={() => { setLoggedIn(false) }}>
+                    <Nav.Link className="item" onClick={() => {
+                      setLoggedIn(false)
+                      localStorage.setItem("loggedIn", false)
+
+                    }}>
                       Logout
                     </Nav.Link>
 
@@ -144,6 +148,7 @@ const Header = () => {
                 setLoggedIn(true)
                 NotificationManager.success("LogIn Success");
                 setShow(false)
+                localStorage.setItem("loggedIn", true)
               }
 
 
