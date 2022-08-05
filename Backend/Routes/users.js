@@ -27,6 +27,6 @@ router.delete('/:id',verifyUser.verifyUser,deleteUser);
 router.get('/:id',verifyUser.verifyUser,getUser)
 
 //get all users
-router.get('/',verifyAdmin.verifyAdmin,getUsers)
+router.get('/',getUsers)
 
 module.exports = router;

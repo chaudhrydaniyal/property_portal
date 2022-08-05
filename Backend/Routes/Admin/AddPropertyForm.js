@@ -5,7 +5,11 @@ const Purpose = require("../../Models/purpose")
 const {propertytypes} = require("../../Models/propertyType")
 const {Psubtype} = require('../../Models/propertysubtype')
 const {createError} = require("../../utils/error")
+
+
+
 //adding purpose 
+
 router.post('/addproperty/purpose/', async(req,res,next)=>{
          try{
                 const addpurpose = new Purpose({
@@ -19,6 +23,8 @@ router.post('/addproperty/purpose/', async(req,res,next)=>{
          }
 })
 
+
+
 //getting all purpose
 
 router.get('/addproperty/purpose',async(req,res,next)=>{
@@ -31,7 +37,12 @@ router.get('/addproperty/purpose',async(req,res,next)=>{
     }
 })
 
+
+
+
 //deletting a purpose 
+
+
 router.delete('/addproperty/purpose/:id',async(req,res,next)=>{
     try{
          const findone = await Purpose.findById(req.params.id);

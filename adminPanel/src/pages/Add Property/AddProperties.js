@@ -138,38 +138,39 @@ const AddProperties = () => {
                       </Button>
                     </Modal.Footer>
                   </Modal>
-                  <ListGroup style={{margin:"30px" , marginTop:"10px", marginBottom:"30px"}}>
-                    {purpose.map((p, index) =>
-                      <Row>
+                  <table class="table">
+                    <thead>
+                      <tr>
+                        <th scope="col"  class="text-center">#</th>
+                        <th scope="col" class="text-center">Purpose</th>
+                        <th scope="col" class="text-center">Delete</th>
 
+                      </tr>
+                    </thead>
+                    <tbody>
 
-                        <ListGroup.Item className='d-flex justify-content-between align-items-center ps-5 pe-5'>
+                      {purpose.map((p, index) =>
+                        <tr>
 
-                          <Col>
-
-                            <span style={{ marginLeft: "20%" }}>
-                              {index + 1}.
-                            </span>
-
-                          </Col>
-                          <Col>
-
-                            {p.purpose}
-                          </Col>
-                          <Col>
-
+                          <th scope="row" class="text-center">    <span >
+                            {index + 1}.
+                          </span>
+                          </th>
+                          <td class="text-center">
+                            {p.purpose}</td>
+                          <td class="text-center">
                             <Button style={{ marginLeft: "auto", color: "red", backgroundColor: "white", borderColor: "white" }} onClick={async () => {
                               await axios.delete(`${originURL}/addproperty/purpose/${p._id}`)
-
                               setUpdate(!update)
-
                             }}><i class="bi bi-trash" variant="success"></i></Button>
-                          </Col>
+                          </td>
+                        </tr>
 
-                        </ListGroup.Item>
-                      </Row>
-                    )}
-                  </ListGroup>
+                      )}
+
+                    </tbody>
+
+                  </table>
                 </FormGroup>
               </Form>
 
@@ -209,44 +210,67 @@ const AddProperties = () => {
                     </Modal.Footer>
                   </Modal>
 
-                  <ListGroup style={{margin:"30px" , marginTop:"10px", marginBottom:"30px"}}>
-                    {propertyType.map((p, index) =>
-                      <Row>
-                        <ListGroup.Item className='d-flex justify-content-between align-items-center ps-5 pe-5'>
-                          <Col>
-                            <span style={{ marginLeft: "20%" }}>
+                  <table class="table">
+                    <thead>
+                      <tr>
+                        <th scope="col" class="text-center">#</th>
+                        <th scope="col" class="text-center">Property Type</th>
+                        <th scope="col" class="text-center">Property Subtypes</th>
+
+                        <th scope="col" class="text-center">Delete</th>
+
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {propertyType.map((p, index) =>
+
+                        <tr>
+
+                          <th scope='row' class="text-center">
+
+                            <span >
                               {index + 1}.
                             </span>
-                          </Col>
 
-                          <Col>
+                          </th>
+
+                          <td class="text-center">
+
+
+
                             {p.propertyType}
-                          </Col>
+                          </td>
 
-                          <Col>
+                          <td class="text-center">
                             <Link to="/propertysubtypes"
                               state={{ item: p }}
-                              style={{ marginLeft: "50px", textDecoration: "none", color: "green", fontWeight: "700" }}
+                              style={{ textDecoration: "none", color: "green", fontWeight: "700" }}
                             >
                               <span>Subtypes</span>
                             </Link>
-                          </Col>
+                          </td>
+                          <td class="text-center">
 
 
-                          <Col>
-                            <Button style={{ marginLeft: "40%", color: "red", backgroundColor: "white", borderColor: "white" }} onClick={async () => {
+                            <Button style={{ color: "red", backgroundColor: "white", borderColor: "white" }} onClick={async () => {
                               await axios.delete(`${originURL}/addproperty/propertytype/${p._id}`)
                               setUpdate(!update)
                             }}><i class="bi bi-trash" variant="success"></i>
                             </Button>
-                          </Col>
+                          </td>
 
-                        </ListGroup.Item>
 
-                      </Row>
-                    )}
+                        </tr>
 
-                  </ListGroup>
+                      )}
+
+
+                    </tbody>
+
+                  </table>
+
+
+
                 </FormGroup>
               </Form>
             </CardBody>

@@ -8,6 +8,9 @@
 }
 .img{
     border-radius: 5%;
+    border-bottom-right-radius: 0;
+    border-bottom-left-radius: 0;
+
     object-fit: cover;
 }
 .icon{

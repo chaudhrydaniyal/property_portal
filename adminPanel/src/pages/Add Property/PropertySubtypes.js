@@ -129,51 +129,64 @@ const PropertySubtypes = () => {
                     </Modal.Footer>
                   </Modal>
 
-                  <ListGroup>
+                  <table class="table">
+                    <thead>
+                      <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Subtype</th>
+                        <th scope="col">Features</th>
+
+                        <th scope="col">Delete</th>
+
+                      </tr>
+                    </thead>
+                    <tbody>
                     {propertySubtype && propertySubtype.map((p, index) =>
 
-                      <Row>
-                        <ListGroup.Item className='d-flex justify-content-between align-items-center ps-5 pe-5'>
+                    <tr>
 
 
-                          <Col>
-                            <span style={{ marginLeft: "20%" }}>
+                      <th scope="row">
+
+                    
+                            <span>
                               {index + 1}.
                             </span>
 
-                          </Col>
-                          <Col>
+
+                            </th>
+
+                            <td>
+
                             {p.propertysubtype}
-                          </Col>
-                          <Col>
+                            </td>
+                            <td>
+                       
                             <Link to="/features"
                               state={{ item: p }}
-                              style={{ marginLeft: "50px", textDecoration: "none", color: "green", fontWeight: "700" }}
+                              style={{ textDecoration: "none", color: "green", fontWeight: "700" }}
                             >
 
                               <span >Features</span>
 
                             </Link>
-                          </Col>
+                            </td>
+                            <td>
 
 
-                          <Col>
-
-
-                            <Button style={{ marginLeft: "40%", color: "red", backgroundColor: "white", borderColor: "white" }} onClick={async () => {
+                            <Button style={{  color: "red", backgroundColor: "white", borderColor: "white" }} onClick={async () => {
                               await axios.delete(`${originURL}/addproperty/propertysubtype/${p._id}`)
 
                               setUpdate(!update)
 
                             }}><i class="bi bi-trash" variant="success"></i></Button>
+                            </td>
 
-                          </Col>
-                        </ListGroup.Item>
-
-                      </Row>
+</tr>
                     )}
 
-                  </ListGroup>
+             </tbody>
+             </table>
 
                 </FormGroup>
               </Form>

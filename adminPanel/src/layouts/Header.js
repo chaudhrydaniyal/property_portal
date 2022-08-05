@@ -1,5 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import {Context} from "../Context/Context"
+import { useContext } from "react";
 import {
   Navbar,
   Collapse,
@@ -13,12 +15,28 @@ import {
   Dropdown,
   Button,
 } from "reactstrap";
+import './Header.css'
 import { ReactComponent as LogoWhite } from "../assets/images/logos/xtremelogowhite.svg";
-import user1 from "../assets/images/users/user1.jpg";
+import user1 from "../assets/images/users/avatar.png";
+
+import { useNavigate } from "react-router-dom";
+
+
+
 
 const Header = () => {
+  const {user,dispatch} = useContext(Context)
   const [isOpen, setIsOpen] = React.useState(false);
   const [dropdownOpen, setDropdownOpen] = React.useState(false);
+  const navigate = useNavigate()
+
+  
+  const handleLogout = async () =>{
+     await dispatch({type:"LOGOUT"})
+      navigate("/")
+      
+  }
+
 
   const toggle = () => setDropdownOpen((prevState) => !prevState);
   const Handletoggle = () => {
@@ -34,7 +52,7 @@ const Header = () => {
           <LogoWhite />
         </NavbarBrand>
         <Button
-          color="primary"
+          color="success"
           className="d-lg-none"
           onClick={() => showMobilemenu()}
         >
@@ -43,7 +61,7 @@ const Header = () => {
       </div>
       <div className="hstack gap-2">
         <Button
-          color="primary"
+          color="success"
           size="sm"
           className="d-sm-block d-md-none"
           onClick={Handletoggle}
@@ -57,7 +75,9 @@ const Header = () => {
       </div>
 
       <Collapse navbar isOpen={isOpen}>
-        <Nav className="me-auto" navbar>
+       <div className="navflex">
+       <div style={{width:"80%"}}>
+       <Nav className="me-auto" navbar>
           <NavItem>
             <Link to="/starter" className="nav-link text-white" >
               Starter
@@ -80,25 +100,33 @@ const Header = () => {
             </DropdownMenu>
           </UncontrolledDropdown>
         </Nav>
-        <Dropdown isOpen={dropdownOpen} toggle={toggle}>
-          <DropdownToggle color="primary">
-            <img
-              src={user1}
-              alt="profile"
-              className="rounded-circle"
-              width="30"
-            ></img>
-          </DropdownToggle>
-          <DropdownMenu>
-            <DropdownItem header>Info</DropdownItem>
-            <DropdownItem>My Account</DropdownItem>
-            <DropdownItem>Edit Profile</DropdownItem>
-            <DropdownItem divider />
-            <DropdownItem>My Balance</DropdownItem>
-            <DropdownItem>Inbox</DropdownItem>
-            <DropdownItem>Logout</DropdownItem>
-          </DropdownMenu>
-        </Dropdown>
+       </div>
+        <div style={{width:"20%",display:"flex",justifyContent:"space-between"}}>
+        { user ?  <>
+         <div style={{width:"80%",display:"flex",justifyContent:"center"}} >
+         <Dropdown isOpen={dropdownOpen} toggle={toggle}>
+              <DropdownToggle className="profile">
+                <img
+                  src={user1}
+                  alt="profile"
+                  className="rounded-circle"
+                  width="35"
+                ></img>
+
+              </DropdownToggle>
+              <DropdownMenu>
+                <DropdownItem header>Info</DropdownItem>
+                <DropdownItem>My Account</DropdownItem>
+                <DropdownItem>Edit Profile</DropdownItem>
+                <DropdownItem divider />
+                <DropdownItem onClick={handleLogout}>Logout</DropdownItem>
+              </DropdownMenu>
+            </Dropdown>
+         </div>
+          
+        </>: <div className="logins" style={{width:"50%"}}><Link to="/adminlogin" className="texts" color="white">Login</Link></div>}
+        </div>
+       </div>
       </Collapse>
     </Navbar>
   );

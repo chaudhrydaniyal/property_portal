@@ -143,45 +143,44 @@ const Features = () => {
                       </Button>
                     </Modal.Footer>
                   </Modal>
-                  <ListGroup>
-                    {propertySubtype && propertySubtype.map((p, index) =>
-
-                      <Row>
-                        <ListGroup.Item className='d-flex justify-content-between align-items-center ps-5 pe-5'>
-
-                          <Col>
-                            <span style={{ marginLeft: "20%", marginRight: "0%" }}>
+                  <table class="table">
+                    <thead>
+                      <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Feature</th>
+                        <th scope="col">input type</th>
+                        <th scope="col">Delete</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {propertySubtype && propertySubtype.map((p, index) =>
+                        <tr>
+                          <th scope='row'>
+                            <span style={{  marginRight: "0%" }}>
                               {index + 1}.
                             </span>
-                          </Col>
-                          <Col>
-
+                          </th>
+                          <td>
                             <span>
                               {p.featurename}
                             </span>
-
-                          </Col>
-
-                          <Col>
-
+                          </td>
+                          <td>
                             <span>
                               {p.featuretype}
                             </span>
-
-                          </Col>
-                          <Col>
-                            <Button style={{ marginLeft: "40%", color: "red", backgroundColor: "white", borderColor: "white" }} onClick={async () => {
+                          </td><td>
+                            <Button style={{  color: "red", backgroundColor: "white", borderColor: "white" }} onClick={async () => {
                               await axios.delete(`${originURL}/addproperty/feature/${p._id}`)
                               setUpdate(!update)
                             }}>
                               <i class="bi bi-trash" variant="success"></i>
                             </Button>
-                          </Col>
-                        </ListGroup.Item>
-                      </Row>
-                    )}
-
-                  </ListGroup>
+                          </td>
+                        </tr>
+                      )}
+                    </tbody>
+                  </table>
                 </FormGroup>
               </Form>
             </CardBody>

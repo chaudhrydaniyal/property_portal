@@ -11,7 +11,7 @@ import CurrencyInput from "react-currency-input-field";
 import axios from "axios";
 import "./add.css";
 import originURL from "../../url";
-const AddProperty = () => {
+const RequestProperty = () => {
 
 
 
@@ -30,19 +30,9 @@ const AddProperty = () => {
   const handleOnBlur = () => setValue(Number(value).toFixed(2));
 
 
-
-
-
-
-
-
-
-
   const [title, setTitle] = useState("");
   const [price, setPrice] = useState("");
-
   const [propetyType, setPropertyType] = useState("");
-
   const [city, setCity] = useState("");
   const [purpose, setPurpose] = useState("");
   const [areaInput, setAreaInput] = useState();
@@ -54,7 +44,6 @@ const AddProperty = () => {
   const [location, setLocation] = useState("");
   const [description, setDescription] = useState("");
   const [imageFiles, setImageFiles] = useState([]);
-
   const [visible, setVisible] = useState(false);
 
   //Form Data
@@ -62,8 +51,10 @@ const AddProperty = () => {
   const [purposeData, setPurposeData] = useState([]);
   const [propertyTypeData, setPropertyTypeData] = useState([]);
   const [propertySubtypeData, setPropertySubtypeData] = useState([]);
-
   const [propertyFeatures, setPropertyFeatures] = useState([]);
+  const [feature, setFeature] = useState("");
+
+
 
 
 
@@ -72,13 +63,11 @@ const AddProperty = () => {
   const [areaUnit, setAreaUnit] = useState("squareMeters")
 
   const [areaOfProperty, setAreaOfProperty] = useState({
-
     squareFoot: 0,
     squareMeters: 0,
     squareYard: 0,
     Marla: 0,
     Kanal: 0
-
   })
 
 
@@ -86,51 +75,25 @@ const AddProperty = () => {
 
     var tempArea = areaOfProperty
 
-
-
     tempArea[`${areaUnit}`] = parseFloat(e.target.value)
-
-
 
     var areaInSquareMeter = 0;
 
-
-
-
     switch (areaUnit) {
       case "squareFoot":
-
-
         areaInSquareMeter = tempArea[`${areaUnit}`] / 10.764
-
-
         break;
       case "squareYard":
-
         areaInSquareMeter = tempArea[`${areaUnit}`] * 0.836126983
-
-
         break;
       case "Marla":
-
-
         areaInSquareMeter = tempArea[`${areaUnit}`] * 25.29285263
-
-
         break;
       case "Kanal":
-
         areaInSquareMeter = tempArea[`${areaUnit}`] * 505.8570526
-
-
-
-
-
         break;
       default:
         areaInSquareMeter = tempArea[`${areaUnit}`]
-
-
     }
 
     tempArea.squareFoot = parseFloat((areaInSquareMeter * 10.76391042).toFixed(4))
@@ -142,12 +105,6 @@ const AddProperty = () => {
     setAreaOfProperty(tempArea)
 
   }
-
-
-
-
-
-
 
 
 
@@ -155,54 +112,28 @@ const AddProperty = () => {
 
     var tempArea = areaOfProperty
 
-
     let areaUnit = e.target.value
 
     tempArea[`${areaUnit}`] = parseFloat(areaInput)
 
-
-
     var areaInSquareMeter = 0;
-
-
-
 
     switch (areaUnit) {
       case "squareFoot":
-
-
         areaInSquareMeter = tempArea[`${areaUnit}`] / 10.764
-
-
         break;
       case "squareYard":
-
         areaInSquareMeter = tempArea[`${areaUnit}`] * 0.836126983
-
-
         break;
       case "Marla":
-
-
         areaInSquareMeter = tempArea[`${areaUnit}`] * 25.29285263
-
-
         break;
       case "Kanal":
-
         areaInSquareMeter = tempArea[`${areaUnit}`] * 505.8570526
-
-
-
-
-
         break;
       default:
         areaInSquareMeter = tempArea[`${areaUnit}`]
-
-
     }
-
 
     tempArea.squareFoot = parseFloat((areaInSquareMeter * 10.76391042).toFixed(4))
     tempArea.squareMeters = parseFloat((areaInSquareMeter).toFixed(4))
@@ -210,30 +141,16 @@ const AddProperty = () => {
     tempArea.Marla = parseFloat((areaInSquareMeter * 0.03954).toFixed(4))
     tempArea.Kanal = parseFloat((areaInSquareMeter * 0.00197684).toFixed(4))
 
-
-
-
-
     setAreaOfProperty(tempArea)
-
-
-
-
   }
-
-
-
-
 
   useEffect(() => {
     async function fetchData() {
       const res = await axios.get(`${originURL}/addproperty/purpose`);
       setPurposeData(res.data.getpurpose);
-
       const res2 = await axios.get(`${originURL}/addproperty/propertytype`);
       setPropertyTypeData(res2.data.getType);
     }
-
     try {
       fetchData();
     } catch (error) {
@@ -260,10 +177,7 @@ const AddProperty = () => {
     console.log("inputeeeeee", inputs);
   };
 
-  // const handleSubmit = (event) => {
-  //   event.preventDefault();
-  //   alert(inputs);
-  // }
+
 
   const handleSetVisible = () => {
     setVisible(true);
@@ -369,17 +283,11 @@ const AddProperty = () => {
 
                   e.preventDefault();
 
-
-                  if (localStorage.getItem("loggedIn")=="false")
-                  {
+                  if (localStorage.getItem("loggedIn") == "false") {
                     NotificationManager.error("Please Login first to Add property");
 
-
-                                      
                     return
                   }
-
-                 
 
                   const formData = new FormData();
 
@@ -392,10 +300,9 @@ const AddProperty = () => {
                   formData.append("Type", propetyType);
                   formData.append("city", city);
                   formData.append("Purpose", purpose);
-           
                   formData.append("Area", `${areaInput} ${areaUnit}`);
                   formData.append("storeroom", storeRooms);
-                  formData.append("DetailLocation", location);   
+                  formData.append("DetailLocation", location);
                   formData.append("Description", description);
                   // formData.append("postedBy", new Date())
 
@@ -404,12 +311,8 @@ const AddProperty = () => {
                     console.log("inside inputs")
 
                     formData.append(`${key}`, `${inputs[`${key}`]}`);
-
-
-
                     console.log(`${key}: ${inputs[`${key}`]}`);
                   }
-
                   try {
                     const response = await axios({
                       method: "post",
@@ -448,9 +351,6 @@ const AddProperty = () => {
                           ))}
                         </Form.Select>
                       </div>
-                      {/* purpose code end */}
-
-                      {/* Location code start*/}
 
                       <div>
                         <Form.Label className="mt-3 select">City</Form.Label>
@@ -747,7 +647,6 @@ const AddProperty = () => {
                           <Form.Label className="mt-3">
                             PropertyType:
                           </Form.Label>
-
                           <div
                             onChange={async (e) => {
 
@@ -794,11 +693,7 @@ const AddProperty = () => {
                               setPropertyType(e.target.value)
 
                               const idOfSubtype = propertySubtypeData.filter((psd) => psd.propertysubtype == e.target.value)[0]._id
-
-                              const res2 = await axios.get(`${originURL}/addproperty/feature/${idOfSubtype}`);
-
-                              setPropertyFeatures(res2.data.get)
-
+                                                          
                               setInputs({})
 
                             }}
@@ -820,20 +715,59 @@ const AddProperty = () => {
                   </div>
                   <br></br>
                   <br></br>
+                  <h5>Features of Property:</h5>
                   <div className="d-flex justify-content-center">
                     {/* add  feature start */}
                     <div>
 
-                      {document.querySelector('.propertySubtype') && document.querySelector('.propertySubtype').value != "" &&
+
+                      <table class="table" style={{ width: "40vw", border: "solid", borderWidth: "1px" }}>
+                        <thead>
+                          <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">Feature</th>
+                            <th scope="col">Delete</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {propertyFeatures && propertyFeatures.map((p, index) =>
+                            <tr>
+                              <th scope='row'>
+                                <span style={{ marginRight: "0%" }}>
+                                  {index + 1}.
+                                </span>
+                              </th>
+                              <td>
+                                <span>
+                                  {p.featurename}
+                                </span>
+                              </td>
+
+                              <td>
+                                <Button style={{ color: "red", backgroundColor: "white", borderColor: "white" }} onClick={() => {
+                                  // await axios.delete(`${originURL}/addproperty/feature/${p._id}`)
+                                  var temp = propertyFeatures
+
+                                  temp.splice(index, 1)
+
+                                  setPropertyFeatures([...temp])
+                                  console.log(propertyFeatures)
+                                }}>
+                                  <i className="bi bi-trash" variant="success"></i>
+                                </Button>
+                              </td>
+                            </tr>
+                          )}
+                        </tbody>
+                      </table>
+
+                      {
                         <Button
                           onClick={() => {
-                            if (document.querySelector('.propertySubtype').value != "") {
-                              handleShow()
-                            }
+
+                            handleShow()
 
                           }
-
-
                           }
                           style={{
                             backgroundColor: "#198754",
@@ -841,48 +775,34 @@ const AddProperty = () => {
                             border: "none",
                           }}
                         >
-                          Add Features
+                          Add Feature
                         </Button>}
                       <Modal
-                        style={{ marginTop: "30vh" }}
+                        style={{ marginTop: "30vh", }}
                         show={show}
-                        size="lg"
+
                         onHide={handleClose}
                         animation={false}
                       >
                         <Modal.Header closeButton>
-                          <Modal.Title>Property Features</Modal.Title>
+                          <Modal.Title>Add Property Feature</Modal.Title>
                         </Modal.Header>
                         <Modal.Body>
-                          <form>
-                            <div onChange={handleChange}>
-                              <Row >
-                                {propertyFeatures.map((pf) => (
-                                  <Col className="mb-3 ps-5" sm={6}>
-                                    <div className="d-flex">
-                                    <span className="mt-1">{pf.featurename} &nbsp;</span>
-                                    &nbsp;
-                                    <input
-                                      style={{color:"black"}}
-                                      type={`${pf.featuretype}`}
-                                      name={`${pf.featurename}`}
-                                      value = {inputs[`${pf.featurename}`]}
-                                      checked = {inputs[`${pf.featurename}`]}
-                                    />
-                                    </div>
-                                  </Col>
-                                ))}
-                              </Row>
+                          <br />
+                          <div className="d-flex justify-content-center">
 
-                              {/* <span>Student Name: &nbsp;</span>
-                        <input type="text" name="sname" />
-                        <span>Student Subject: &nbsp;</span>
-                        <input type="text" name="ssubject" /> */}
-                            </div>
-                            <br />
-                          </form>
 
-                          {/* <input style={{ width: "80%" }} onChange={(e) => null}></input> */}
+
+
+                            <textarea style={{ width: "80%" }} onChange={(e) => setFeature(e.target.value)}></textarea>
+
+
+                          </div>
+
+                          <br />
+                          <br />
+
+
                         </Modal.Body>
                         <Modal.Footer>
                           <Button variant="secondary" onClick={handleClose}>
@@ -890,15 +810,19 @@ const AddProperty = () => {
                           </Button>
                           <Button
                             onClick={() => {
-                              console.log("submit", inputs);
                               try {
+
+                                var temp = propertyFeatures;
+                                temp.push({ featurename: feature })
+                                setPropertyFeatures(temp)
+                                console.log(propertyFeatures)
                                 handleClose();
                               } catch (err) {
                                 console.log(err);
                               }
                             }}
                           >
-                            Save
+                            Add Feature
                           </Button>
                         </Modal.Footer>
                       </Modal>
@@ -1001,7 +925,24 @@ const AddProperty = () => {
                       </div>
                       <br></br>
                       <div>
-                        <Form.Label>Total Price</Form.Label>
+                        <Form.Label>Price Range</Form.Label>
+                        <CurrencyInput
+                          style={{ color: "black" }}
+                          prefix={prefix}
+                          name="currencyInput"
+                          id="currencyInput"
+                          data-number-to-fixed="2"
+                          data-number-stepfactor="100"
+                          value={value}
+                          placeholder=""
+                          onChange={handleChangePrice}
+                          onBlur={handleOnBlur}
+                          allowDecimals
+                          decimalsLimit="2"
+                          intlConfig={{ locale: 'en-IN', currency: 'INR' }}
+
+                          disableAbbreviations
+                        />
                         <CurrencyInput
                           style={{ color: "black" }}
                           prefix={prefix}
@@ -1023,23 +964,7 @@ const AddProperty = () => {
                     </div>
                   </div>
 
-                  {/* <div>
-                    <Form.Label>Title</Form.Label>
-                    <Form.Control
-                      placeholder="Title"
-                      className="dd"
-                      onChange={(e) => setTitle(e.target.value)}
-                      required
-                    ></Form.Control>
-                    <Form.Label className="mt-3">Price</Form.Label>
-                    <Form.Control
-                      type="number"
-                      placeholder="price"
-                      className="dd"
-                      onChange={(e) => setPrice(e.target.value)}
-                      required
-                    ></Form.Control>
-                  </div> */}
+
                 </div>
                 <br></br>
                 {/* title and description portion start */}
@@ -1056,10 +981,7 @@ const AddProperty = () => {
                     PROPERTY TITLE, DESCRIPTION AND ADDRESS
                   </Card.Title>
                   <div className="mt-3 ff">
-                    {/* <div>
-                        <Form.Label>Title</Form.Label>
-                        <Form.Control type="text" required></Form.Control>
-                      </div> */}
+
                     <div>
                       <Form.Label>Title</Form.Label>
                       <Form.Control
@@ -1075,24 +997,13 @@ const AddProperty = () => {
                     </div>
                     <div>
                       <Form.Label>Address</Form.Label>
-                      <Form.Control   placeholder="address" onChange={(e) => setLocation(e.target.value)}  required></Form.Control>
+                      <Form.Control placeholder="address" onChange={(e) => setLocation(e.target.value)} required></Form.Control>
                     </div>
                   </div>
                 </div>
 
-
-                <br></br><br></br>
-                <RMIUploader
-
-                  isOpen={visible}
-                  hideModal={hideModal}
-                  onSelect={onSelect}
-                  onUpload={onUpload}
-                  onRemove={onRemove}
-                />
-
-                <Button variant="success" className="mt-3" type="submit">
-                  Add Property
+                <Button variant="success" className="mt-3" type="submit" disabled>
+                  Request Property
                 </Button>
               </Form>
             </Card>
@@ -1103,4 +1014,4 @@ const AddProperty = () => {
   );
 };
 
-export default AddProperty;
+export default RequestProperty;

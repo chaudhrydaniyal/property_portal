@@ -1,0 +1,42 @@
+.logins{
+    display:flex;
+    align-items:center;
+    margin-bottom:0;
+    justify-content:center;
+
+}
+.texts{
+    margin-bottom: 0;
+    cursor: pointer;
+    text-decoration: none;
+    color:#fff;  
+}
+
+
+.texts:hover{
+    border-bottom: 1px solid #fff;
+    color: #fff;
+}
+.navflex{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.profile{
+    padding: 0;
+    border:none;
+    outline: none;
+    background-color: transparent;
+   
+  
+}
+.profile:hover{
+    border: none;
+    background-color: transparent;
+}
+.profile:focus{
+    border: none;
+    background-color: transparent;
+}

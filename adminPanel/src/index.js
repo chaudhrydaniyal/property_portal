@@ -6,10 +6,15 @@ import reportWebVitals from "./reportWebVitals";
 import { HashRouter } from "react-router-dom";
 import Loader from "./layouts/loader/Loader";
 
+import { ContextProvider } from "./Context/Context";
+
+
 ReactDOM.render(
   <Suspense fallback={<Loader />}>
     <HashRouter>
+      <ContextProvider>
       <App />
+      </ContextProvider>
     </HashRouter>
   </Suspense>,
 

@@ -9,7 +9,7 @@ const navigation = [
     icon: "bi bi-speedometer2",
   },
   {
-    title: "Add Property",
+    title: "Add Property Form",
     href: "/addproperty",
     icon: "bi bi-plus",
   },

@@ -22,28 +22,29 @@ const PropertyListing = (props) => {
   const [page, setPage] = useState(1);
 
   const [count, setCount] = useState(0)
-  const [search, setSearch] = useState("");
-
-  console.log("count",count)
-
-
-
+  const [search, setSearch] = useState(location.state? location.state.search? location.state.search:"" : "");
 
   var url = "";
+
   if (location.state) {
-
-    if (location.state.hasOwnProperty('purpose')){
-      console.log("called")
-
-      url = `${originURL}/properties?propertyType=all_properties&purpose=${location.state.purpose}&page=${page}&limit=20&title=${search}`;
-
+    if (location.state.purpose || location.state.propertyType) {
+      if (location.state.hasOwnProperty('purpose')) {
+        url = `${originURL}/properties?propertyType=all_properties&purpose=${location.state.purpose}&page=${page}&limit=20&title=${search}`;
+      }
+      else {
+        url = `${originURL}/properties?propertyType=${location.state.propertyType}&page=${page}&limit=20&title=${search}`;
+      }
     }
-    else{
-    
-    url = `${originURL}/properties?propertyType=${location.state.propertyType}&page=${page}&limit=20&title=${search}`;}
-  } else {
+    if (location.state.search){
+      url = `${originURL}/properties?propertyType=all_properties&page=${page}&limit=20&title=${search}`;
+    }
+  }
+  else {
     url = `${originURL}/properties?propertyType=all_properties&page=${page}&limit=20&title=${search}`;
   }
+
+  
+
   const fetchDATA = async () => {
     try {
       const res = await axios.get(url);
@@ -68,7 +69,7 @@ const PropertyListing = (props) => {
       <div className="header">
         <div className='d-flex justify-content-center'>
           <div style={{ marginTop: "15%", opacity: "0.9" }}>
-            <input style={{ width: "300px", height:"38px", borderRadius:"5px", borderColor:"white" }} onChange={(e) => setSearch(e.target.value)}></input>
+            <input value={`${search}`} style={{ width: "300px", height:"38px", borderRadius:"5px", borderColor:"white" }} onChange={(e) => setSearch(e.target.value)}></input>
             <Button variant="success" className='ms-2' onClick={() => {
               url = `${originURL}/properties?propertyType=${location.state ? location.state.propertyType : "all_properties"}&page=${page}&limit=20&title=${search}`
               fetchDATA();
@@ -95,19 +96,17 @@ const PropertyListing = (props) => {
           <div className="">
             {" "}
             <p className="" style={{ fontSize: "30px", fontWeight: "700", color: "green" }}>
-
               {location.state ? 
               location.state.purpose? location.state.purpose:
-              location.state.propertyType : "Property Listing"}s
-
+              location.state.propertyType ? location.state.propertyType :"Propertie" : "Property Listing"}s
             </p>
           </div>
-          <Row className="  mb-5">
+          <Row className="  mb-5" >
             {data.map((item) => {
               return (
                 <>
-                  <Col className="items" lg="3" key={item._id}>
-                    <Card style={{ width: "18rem" }}>
+                  <Col className="items" lg="3" key={item._id} style={{marginBottom:"15px"}}>
+                    <Card style={{ width: "18rem", borderRadius:"8px" }}>
                       <Link
                         to="propertyDetail"
                         state={{
@@ -124,7 +123,6 @@ const PropertyListing = (props) => {
                           className="img"
                         />
                         <Card.Body>
-
                           <Card.Title>
                             {" "}
                             <div>
@@ -145,11 +143,9 @@ const PropertyListing = (props) => {
                             </div>
                           </Card.Title>
                           <Card.Text>
-
                             <p style={{ fontSize: "15px", fontWeight: "bold" }}>
                               {item.Title}
                             </p>
-
                             <div
                               style={{ display: "flex", justifyContent: "start" }}
                             >
@@ -167,7 +163,6 @@ const PropertyListing = (props) => {
                           </Card.Text>
                         </Card.Body>
                       </Link>
-
                     </Card>
                   </Col>
                 </>
@@ -194,6 +189,10 @@ const PropertyListing = (props) => {
             }}
           />
         </Stack>
+      </div>
+
+      <div className="d-flex justify-content-center pb-5 pt-2">
+        <div style={{fontWeight:"700", fontSize:"18px"}}>Still can't find what you're looking for? <Link to="/requestproperty">Request a property</Link>.</div>
       </div>
     </>
   );
