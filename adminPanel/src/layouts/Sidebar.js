@@ -11,6 +11,7 @@ const navigation = [
   {
     title: "Add Property Form",
     href: "/addproperty",
+    
     icon: "bi bi-plus",
   },
   // {
@@ -80,7 +81,7 @@ const Sidebar = () => {
               <Link
                 to={navi.href}
                 className={
-                  location.pathname === navi.href
+                  location.pathname.includes(navi.href)
                     ? "text-primary nav-link py-3"
                     : "nav-link text-secondary py-3"
                 }

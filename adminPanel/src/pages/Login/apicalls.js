@@ -1,5 +1,8 @@
 import axios from "axios";
-const url ="http://localhost:8000/auth/login"
+import originURL from "../../url";
+
+
+const url =`${originURL}/auth/login`
 
 export const loginCall = async(userCredientials,dispatch) =>{
     dispatch({type:"LOGIN_START"});

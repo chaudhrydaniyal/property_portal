@@ -242,7 +242,7 @@ const AddProperties = () => {
                           </td>
 
                           <td class="text-center">
-                            <Link to="/propertysubtypes"
+                            <Link to="/addproperty/propertysubtypes"
                               state={{ item: p }}
                               style={{ textDecoration: "none", color: "green", fontWeight: "700" }}
                             >

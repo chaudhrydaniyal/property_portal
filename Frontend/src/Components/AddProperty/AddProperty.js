@@ -18,7 +18,7 @@ const AddProperty = () => {
 
 
   const prefix = "PKR ";
-  const [value, setValue] = useState(0);
+  const [value, setValue] = useState(null);
 
   const handleChangePrice = (e) => {
     e.preventDefault();
@@ -1010,9 +1010,9 @@ const AddProperty = () => {
                           data-number-to-fixed="2"
                           data-number-stepfactor="100"
                           value={value}
-                          placeholder=""
+                          placeholder="Enter the price of Property"
                           onChange={handleChangePrice}
-                          onBlur={handleOnBlur}
+                          onBlur={value> 0 ? handleOnBlur: null}
                           allowDecimals
                           decimalsLimit="2"
                           intlConfig={{ locale: 'en-IN', currency: 'INR' }}

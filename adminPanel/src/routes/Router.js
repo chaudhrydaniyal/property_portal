@@ -50,8 +50,8 @@ const ThemeRoutes = [
       { path: "/breadcrumbs", exact: true, element: <Breadcrumbs /> },
       { path: "/properties", exact: true, element: <Properties /> },
       { path: "/addproperty", exact: true, element: <AddProperties /> },
-      { path: "/propertysubtypes", exact: true, element: <PropertySubtypes /> },
-      { path: "/features", exact: true, element: <Features /> }
+      { path: "/addproperty/propertysubtypes", exact: true, element: <PropertySubtypes /> },
+      { path: "/addproperty/features", exact: true, element: <Features /> }
     ]
   },
 ];

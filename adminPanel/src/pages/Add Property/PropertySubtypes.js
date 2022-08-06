@@ -162,7 +162,7 @@ const PropertySubtypes = () => {
                             </td>
                             <td>
                        
-                            <Link to="/features"
+                            <Link to="/addproperty/features"
                               state={{ item: p }}
                               style={{ textDecoration: "none", color: "green", fontWeight: "700" }}
                             >

@@ -18,16 +18,27 @@ const RequestProperty = () => {
 
 
   const prefix = "PKR ";
-  const [value, setValue] = useState(0);
+  const [minPrice, setMinPrice] = useState(null);
 
-  const handleChangePrice = (e) => {
+  const handleChangeMinPrice = (e) => {
+    console.log(e.target.value)
     e.preventDefault();
     const { value = "" } = e.target;
     const parsedValue = value.replace(/[^\d.]/gi, "");
-    setValue(parsedValue);
+    setMinPrice(parsedValue);
   };
 
-  const handleOnBlur = () => setValue(Number(value).toFixed(2));
+  const [maxPrice, setMaxPrice] = useState(null);
+
+  const handleChangeMaxPrice = (e) => {
+    e.preventDefault();
+    const { value = "" } = e.target;
+    const parsedValue = value.replace(/[^\d.]/gi, "");
+    setMaxPrice(parsedValue);
+  };
+
+  const handleOnBlurMinPrice = () => setMinPrice(Number(minPrice).toFixed(2));
+  const handleOnBlurMaxPrice = () => setMaxPrice(Number(maxPrice).toFixed(2));
 
 
   const [title, setTitle] = useState("");
@@ -296,7 +307,6 @@ const RequestProperty = () => {
                   }
 
                   formData.append("Title", title);
-                  formData.append("Price", value);
                   formData.append("Type", propetyType);
                   formData.append("city", city);
                   formData.append("Purpose", purpose);
@@ -933,10 +943,10 @@ const RequestProperty = () => {
                           id="currencyInput"
                           data-number-to-fixed="2"
                           data-number-stepfactor="100"
-                          value={value}
-                          placeholder=""
-                          onChange={handleChangePrice}
-                          onBlur={handleOnBlur}
+                          value={minPrice}
+                          placeholder="Minimum Price"
+                          onChange={handleChangeMinPrice}
+                          onBlur={minPrice > 0 ? handleOnBlurMinPrice: null}
                           allowDecimals
                           decimalsLimit="2"
                           intlConfig={{ locale: 'en-IN', currency: 'INR' }}
@@ -950,10 +960,10 @@ const RequestProperty = () => {
                           id="currencyInput"
                           data-number-to-fixed="2"
                           data-number-stepfactor="100"
-                          value={value}
-                          placeholder=""
-                          onChange={handleChangePrice}
-                          onBlur={handleOnBlur}
+                          value={maxPrice}
+                          placeholder="Maximum Price"
+                          onChange={handleChangeMaxPrice}
+                          onBlur={maxPrice > 0 ? handleOnBlurMaxPrice: null}
                           allowDecimals
                           decimalsLimit="2"
                           intlConfig={{ locale: 'en-IN', currency: 'INR' }}
