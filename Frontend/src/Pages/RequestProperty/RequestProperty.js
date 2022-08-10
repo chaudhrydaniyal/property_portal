@@ -294,17 +294,13 @@ const RequestProperty = () => {
 
                   e.preventDefault();
 
-                  if (localStorage.getItem("loggedIn") == "false") {
+                  if (localStorage.getItem("loggedIn") == "false" || !localStorage.getItem("loggedIn")) {
                     NotificationManager.error("Please Login first to Add property");
 
                     return
                   }
 
                   const formData = new FormData();
-
-                  for (let i = 0; i < imageFiles.length; i++) {
-                    formData.append("uploadedImages", imageFiles[i].file);
-                  }
 
                   formData.append("Title", title);
                   formData.append("Type", propetyType);
@@ -316,17 +312,11 @@ const RequestProperty = () => {
                   formData.append("Description", description);
                   // formData.append("postedBy", new Date())
 
-                  for (const key in inputs) {
-
-                    console.log("inside inputs")
-
-                    formData.append(`${key}`, `${inputs[`${key}`]}`);
-                    console.log(`${key}: ${inputs[`${key}`]}`);
-                  }
+        
                   try {
                     const response = await axios({
                       method: "post",
-                      url: `${originURL}/properties/addproperty`,
+                      url: `${originURL}/properties/requestproperty`,
                       data: formData,
                       headers: { "Content-Type": "multipart/form-data" },
                     });
@@ -1012,7 +1002,7 @@ const RequestProperty = () => {
                   </div>
                 </div>
 
-                <Button variant="success" className="mt-3" type="submit" disabled>
+                <Button variant="success" className="mt-3" type="submit" >
                   Request Property
                 </Button>
               </Form>

@@ -9,6 +9,7 @@ import Register from './Pages/Register/Register';
 import PropertyListing from './Pages/PropertyListing/PropertyListing';
 import SingleProperty from './Components/PropertyDetail/SingleProperty';
 import RequestProperty from './Pages/RequestProperty/RequestProperty';
+import RequestedPropertyListing from './Pages/RequestedPropertyListing/RequestedPropertyListing';
 function App() {
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
@@ -24,6 +25,8 @@ function App() {
         <Route path='/register' element={<Register handleShow={handleShow}/>}></Route>
         <Route path='/propertylisting' element={<PropertyListing />}></Route>
         <Route path='/propertylisting/propertyDetail' element={<SingleProperty />}></Route>
+        <Route path='/requestedpropertylisting' element={<RequestedPropertyListing />}></Route>
+
        </Routes>
        <HomePartners/>
        <Footer/>

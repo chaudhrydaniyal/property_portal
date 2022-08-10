@@ -9,6 +9,7 @@ const cookieparser = require("cookie-parser");
 const dotenv = require("dotenv");
 const purposeRoute = require("./Routes/Admin/AddPropertyForm")
 const featureRoute = require("./Routes/Admin/Addfeature")
+const requestproperty = require("./Routes/requests")
 
 
 var bodyParser = require("body-parser");
@@ -16,9 +17,16 @@ var bodyParser = require("body-parser");
 //DB connection
 connectionDB();
 dotenv.config();
+
+
+
+
+
+
 app.use(cors());
 app.use(cookieparser());
 app.use(express.json()); // for json
+
 
 
 // app.use(cors({ credentials: true, origin: "http://localhost:3000" }));
@@ -27,6 +35,9 @@ app.use(express.json()); // for json
 app.use("/auth", authRoute);
 app.use("/users", userRoute);
 app.use("/properties", propertyRoute);
+app.use("/properties",requestproperty)
+
+
 app.use("/",purposeRoute)
 app.use("/",featureRoute);
 // app.use(bodyParser.urlencoded({ extended: true })) // for form data

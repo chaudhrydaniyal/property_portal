@@ -60,6 +60,11 @@ const Header = () => {
                   Properties
                 </Link>
               </Nav.Link>
+              <Nav.Link>
+                <Link to={"/requestedpropertylisting"} className="item">
+                  Requested Properties
+                </Link>
+              </Nav.Link>
             </Nav>
             <Nav>
               <Nav.Link>

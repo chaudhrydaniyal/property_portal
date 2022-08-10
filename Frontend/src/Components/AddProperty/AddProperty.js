@@ -370,7 +370,7 @@ const AddProperty = () => {
                   e.preventDefault();
 
 
-                  if (localStorage.getItem("loggedIn")=="false")
+                  if (localStorage.getItem("loggedIn")=="false" || !localStorage.getItem("loggedIn"))
                   {
                     NotificationManager.error("Please Login first to Add property");
 
