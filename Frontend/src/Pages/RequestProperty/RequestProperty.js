@@ -11,7 +11,39 @@ import CurrencyInput from "react-currency-input-field";
 import axios from "axios";
 import "./add.css";
 import originURL from "../../url";
+
+
+import ReactMapboxGl  from 'react-mapbox-gl';
+
+import DrawControl from 'react-mapbox-gl-draw';
+
+// Don't forget to import the CSS
+import '@mapbox/mapbox-gl-draw/dist/mapbox-gl-draw.css';
+import NavbarCollapse from "react-bootstrap/esm/NavbarCollapse";
+import { Marker } from "react-mapbox-gl";
+
+const Map = ReactMapboxGl({
+  accessToken:
+    'pk.eyJ1IjoiZmFrZXVzZXJnaXRodWIiLCJhIjoiY2pwOGlneGI4MDNnaDN1c2J0eW5zb2ZiNyJ9.mALv0tCpbYUPtzT7YysA2g'
+});
+
+
+
 const RequestProperty = () => {
+
+  // Map functions
+
+  const onDrawCreate = ({ features }) => {
+    setCoordinates(features[0].geometry.coordinates[0])
+    console.log("coordinates",coordinates)
+    console.log(features);
+  };
+
+  const onDrawUpdate = ({ features }) => {
+    setCoordinates(features[0].geometry.coordinates[0])
+
+    console.log(features);
+  };
 
 
 
@@ -271,9 +303,19 @@ const RequestProperty = () => {
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
+
+
+
+
+  // Map Coordinates
+
+  const [coordinates, setCoordinates] = useState([]);
+
+
+
   return (
     <>
-      <div style={{ marginTop: "100px", padding: "20px 400px" }}>
+      <div style={{ marginTop: "100px", padding: "20px 200px" }}>
         <Container>
           <Card className="p-5 res">
             <Card.Title
@@ -310,9 +352,11 @@ const RequestProperty = () => {
                   formData.append("storeroom", storeRooms);
                   formData.append("DetailLocation", location);
                   formData.append("Description", description);
+                  formData.append("Coordinates", coordinates);
+
                   // formData.append("postedBy", new Date())
 
-        
+
                   try {
                     const response = await axios({
                       method: "post",
@@ -693,7 +737,7 @@ const RequestProperty = () => {
                               setPropertyType(e.target.value)
 
                               const idOfSubtype = propertySubtypeData.filter((psd) => psd.propertysubtype == e.target.value)[0]._id
-                                                          
+
                               setInputs({})
 
                             }}
@@ -721,7 +765,7 @@ const RequestProperty = () => {
                     <div>
 
 
-                      <table class="table" style={{ width: "40vw", border: "solid", borderWidth: "1px" }}>
+                      <table class="table" style={{ width: "55vw", border: "solid", borderWidth: "1px" }}>
                         <thead>
                           <tr>
                             <th scope="col">#</th>
@@ -914,15 +958,7 @@ const RequestProperty = () => {
                         </tbody>
 
                       </Table>
-                      <br></br>
-                      <div>
-                        <Form.Label>Occupancy Status:</Form.Label>
-                        <Form.Select required>
-                          <option disabled>Please Select</option>
-                          <option>Occupied</option>
-                          <option>Vacant</option>
-                        </Form.Select>
-                      </div>
+               
                       <br></br>
                       <div>
                         <Form.Label>Price Range</Form.Label>
@@ -936,7 +972,7 @@ const RequestProperty = () => {
                           value={minPrice}
                           placeholder="Minimum Price"
                           onChange={handleChangeMinPrice}
-                          onBlur={minPrice > 0 ? handleOnBlurMinPrice: null}
+                          onBlur={minPrice > 0 ? handleOnBlurMinPrice : null}
                           allowDecimals
                           decimalsLimit="2"
                           intlConfig={{ locale: 'en-IN', currency: 'INR' }}
@@ -953,7 +989,7 @@ const RequestProperty = () => {
                           value={maxPrice}
                           placeholder="Maximum Price"
                           onChange={handleChangeMaxPrice}
-                          onBlur={maxPrice > 0 ? handleOnBlurMaxPrice: null}
+                          onBlur={maxPrice > 0 ? handleOnBlurMaxPrice : null}
                           allowDecimals
                           decimalsLimit="2"
                           intlConfig={{ locale: 'en-IN', currency: 'INR' }}
@@ -996,6 +1032,36 @@ const RequestProperty = () => {
                       <Form.Control type="text" as="textarea" onChange={(e) => setDescription(e.target.value)} rows={3} required></Form.Control>
                     </div>
                     <div>
+                    <Form.Label>Select your desired location:</Form.Label>
+                    <div>
+                   {coordinates[0] && coordinates.map((c)=>
+                   
+                   <div>
+                                    
+                    {c[0]} &nbsp; {c[1]}</div>)}
+                    
+                  </div>
+                   
+                   {/* {console.log("new",coordinates[0][1][0])} */}
+                    <Map
+                      style="mapbox://styles/mapbox/streets-v9"
+                      containerStyle={{
+                        height: '60vh',
+                        width: '90%',
+                        margin:"auto",
+                        marginTop:"10px",
+                        marginBottom:"10px"
+
+                      }}
+                      center= {[ 74.32938, 31.499]}
+                      zoom={[11]}
+                    >
+                      <DrawControl onDrawCreate={onDrawCreate} onDrawUpdate={onDrawUpdate} />
+                     
+
+                    </Map>
+                    </div>
+                    <div>
                       <Form.Label>Address</Form.Label>
                       <Form.Control placeholder="address" onChange={(e) => setLocation(e.target.value)} required></Form.Control>
                     </div>
@@ -1009,6 +1075,8 @@ const RequestProperty = () => {
             </Card>
           </Card>
         </Container>
+
+ 
       </div>
     </>
   );

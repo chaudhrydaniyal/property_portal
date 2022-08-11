@@ -45,6 +45,10 @@ const QuerrySchema = new mongoose.Schema({
   Description: {
     type: String,
   },
+  Coordinates:{
+   
+    type:Array,
+  },
   postedBy:{
     type:mongoose.Schema.Types.ObjectId,
     ref:'Users'
@@ -54,4 +58,4 @@ const QuerrySchema = new mongoose.Schema({
 
 
 const Querries = mongoose.model('Querries', QuerrySchema);
-module.exports = Querries;
+module.exports = Querries;  
